@@ -1,0 +1,40 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+{% block links %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main id="form_container" class="container-fluid d-flex justify-content-center align-items-center flex-grow-1">
+      <div id="container_form" class="py-3 d-flex justify-content-center align-items-center">
+        <form method="post" id="form_login" class="w-100 d-flex flex-column justify-content-center align-items-center container gap-2">
+          <img src="{% static 'icons/1.png' %}" alt="" width="60" height="60" />
+          <h4 class="fw-bold">Iniciar Sesion en TechTreasure</h4>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-dark mt-1 bg-black">Iniciar Sesion</button>
+        <div class="d-flex flex-wrap gap-2 m-1 justify-content-around align-items-center" id="linksCuenta">
+          <a href="" class="w-50 link-body-emphasis text-decoration-none fw-light fs-6" >¿Olvidaste tu contraseña?</a>
+          <a href="{% url 'registro' %}" class="w-50 flex-fill link-body-emphasis text-decoration-none fw-light fs-6">¿No tienes cuenta? Regístrate</a>
+        </div>
+      </form>
+      </div>
+
+    </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var username = document.getElementById('id_username')
+      var password = document.getElementById('id_password')
+      password.classList.add('form-control', 'border-dark')
+      username.classList.add('form-control', 'border-dark')
+      password.placeholder = 'Tu Contraseña'
+      username.placeholder = 'Tu Usuario'
+      let labelUser = document.querySelector('#container_form div label[for="id_username"]')
+      let labelPassword = document.querySelector('#container_form div label[for="id_password"]')
+      labelUser.classList.add('form-label');
+      labelPassword.classList.add('form-label');
+      labelUser.textContent = 'Usuario';
+      labelPassword.textContent = 'Contraseña';
+    });
+  </script>
+{% endblock %}
