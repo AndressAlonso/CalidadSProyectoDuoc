@@ -1,8 +1,7 @@
-from django.contrib import admin
-from django.urls import path,include
+from django.urls import path
 from .views import *
 urlpatterns = [
     path('', home, name="home"),
-    path('Gestion', GestProducto, name="Gestion"),
-  
+    path('gestion/Producto', GestProducto, name="TuProducto"),
+    path('gestion/Admin', adminConfig, name="adminConfig"),
 ]

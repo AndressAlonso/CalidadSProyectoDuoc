@@ -1,0 +1,364 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock links %}
+
+{% block content %}
+<div id="title" class="d-flex justify-content-center align-items-center">
+    <span class="text-center">Panel de Administrador</span>
+</div>
+<div id="ultimosProductos" class="w-100">
+    <div id="Ptitle" class="w-100">
+        <span>Que quieres Ver</span>
+        <select class="form-select" name="" id="">
+            <option class="form-select" value="0">Productos Subidos</option>
+            <option value="1">Ventas</option>
+            <option value="2">Inventario</option>
+        </select>
+    </div>
+</div>
+<div id="verCompras" class="w-100 d-flex flex-wrap gap-3 justify-content-center align-items-center">
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-fill flex-row gap-3 flex-wrap">
+        <div
+            class="d-flex flex-fill flex-column justify-content-between border border-dark-subtle rounded-2 border-1 container shadow w-50">
+            <div class="d-flex w-100 py-1 justify-content-between flex-wrap">
+                <div class="d-flex justify-content-center flex-column">
+                    <span style="font-size: small;" class="fw-semibold"> Miercoles 13 de agosto </span>
+                    <span style="font-size: small;" class="fw-semibold text-black-50"> Vendedor: Andres Alvarado </span>
+                </div>
+                <span class="fw-semibold">$ 109.000 </span>
+            </div>
+            <div class="border border-dark-subtle border-1"></div>
+            <div class="d-flex flex-column w-100">
+                    <div class="d-flex w-100">
+                        <div class="d-flex justify-content-center align-items-center flex-fill">
+                            <img src="{% static 'icon/Brand.svg' %}" alt="Producto 1" width="60" height="60" />
+                        </div>
+                      <div class="d-flex justify-content-center flex-column flex-fill">
+                        <div class="d-flex flex-column container flex-fill">
+                            <span class="fw-bold">Semilla Organica</span>
+                            <span class="text-black-50"> Descripcion </span>
+                            {% if producto.cantidad > 1 %}
+                            <span class="text-black-50"> 36 Unidades</span>
+                            {% else %}
+                            <span class="text-black-50"> 1 Unidad</span>
+                            {% endif %}
+
+                        </div>
+                        <div class="d-flex w-100 justify-content-end align-items-center gap-2 py-2">
+                            <a href="" class="btn btn-danger">Eliminar</a>
+                            <a href="" class="btn btn-dark">Ocultar</a>
+                        </div>
+                      </div>
+                    </div>
+          
+                
+            </div>
+        </div>
+    </div>
+   
+</div>
+{% endblock content %}
