@@ -1,0 +1,40 @@
+#card:hover #imgProducto {
+    transform: scale(1.1); /* Increase size by 10% */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+
+#AddToCarro:hover{
+    background-color: #000000 !important;
+    border-color: #1e7e34 !important;
+    color: #fff;
+    transition: 0.5s all;
+}
+
+@media (min-width: 1024px) {}
+
+.card {
+    max-width: 483.42px;
+    min-width: 254.543px;
+    border-radius: 47px 0px 14px 16px;
+    -moz-border-radius: 47px 0px 14px 16px;
+    -webkit-border-radius: 47px 0px 14px 16px;
+}
+
+#idCard {
+    font-size: small;
+
+}
+
+#cardMarca {
+    font-size: smaller;
+
+}
+
+
+#cardDesc {
+    font-size: small;
+    text-wrap: balance;
+    height: 78px;
+    overflow-y: scroll;
+}

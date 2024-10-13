@@ -1,89 +1,346 @@
-{% extends "plantilla.html" %}
+{% extends 'plantilla.html' %}
 {% load static %}
 {% block links %}
-<link rel="stylesheet" href="{% static 'css/gestProducto.css' %}">
-{% endblock links %}
+  <link rel="stylesheet" href="{% static 'css/gestProducto.css' %}" />
+{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between container-fluid w-100 flex-column">
-  <div id="añadirProductos" class="w-100">
-    <div class="my-3">
-      <span class="border-bottom border-dark-subtle fw-bold ">Añadir Producto para la Venta</span>
-    </div>
-    <div id="formProducto" class="">
-      <form action="">
-        <div>
-          <label for="NombreSemilla" class="form-label">Nombre Semilla</label>
-          <input type="text" id="NombreSemilla" class="form-control">
+  <div class="modal fade" data-bs-backdrop="static" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Producto</h5>
         </div>
-        <div>
-          <label for="NombreSemilla" class="form-label">Precio</label>
-          <input type="text" id="NombreSemilla" class="form-control">
+        <div class="modal-body">
+          <div id="añadirProductos" class="d-flex justify-content-between flex-wrap w-100 flex-row align-items-center gap-2">
+            <div id="formProductoL" class="flex-fill w-100">
+              <div id="left" class="d-flex flex-column gap-3">
+                <div>
+                  <label for="NombreSemilla" class="form-label">Nombre Semilla</label>
+                  <input type="text" id="NombreSemilla" class="form-control" />
+                </div>
+                <div>
+                  <label for="NombreSemilla" class="form-label">Precio</label>
+                  <input type="text" id="NombreSemilla" class="form-control" />
+                </div>
+                <div>
+                  <label for="NombreSemilla" class="form-label">Cantidad Aprox.</label>
+                  <input type="text" id="NombreSemilla" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div id="formProductoL" class="flex-fill w-100">
+              <div id="left" class="d-flex flex-column gap-3">
+                <div class="w-100">
+                  <label for="imageInput" class="form-label">Sube Imagen de tu Producto</label>
+                  <input type="file" id="imageInput" class="form-control w-100" accept="image/*" />
+                </div>
+                <div class="w-100 d-flex justify-content-center align-items-center h-auto">
+                  <div id="imageContainer" class="overflow-y-scroll">
+                    <img height="100" class="img-fluid" width="100" src="{% static 'icon/Brand.svg' %}" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label for="NombreSemilla" class="form-label">Cantidad Aprox.</label>
-          <input type="text" id="NombreSemilla" class="form-control">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+          <button type="button" class="btn btn-primary">Subir Producto</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
-  <div id="GestProductos" class="w-100">
-    <div class="my-3">
-      <span class="border-bottom border-dark-subtle fw-bold ">Tus productos A la Venta</span>
-    </div>
-    <div id="cards">
-      <div id="card" class="col">
-        <div id="title_card1" class="card rounded-1 border-0 shadow">
-          <div class="card-body border-black py-2 border-bottom-0">
-            <div class="d-flex justify-content-between flex-column">
-              <div class="d-flex justify-content-between
-              align-items-center">
-                <span>Semilla Organica</span>
-                <div class=" w-25">
-                  <img src="{% static 'icon/Brand.svg' %}" alt="">
+
+  <div class="d-flex justify-content-between container-fluid w-100 flex-column">
+    <div class="border border-dark-subtle w-100"></div>
+    <div id="GestProductos" class="w-100">
+      <div class="mt-3">
+        <span class="fw-bold">Tus productos A la Venta</span>
+      </div>
+      <div class="d-flex flex-row justify-content-between">
+        <div id="botonesFiltros" class="d-flex justify-content-start align-items-center gap-3 py-2">
+          <div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AgregarProducto">+</button>
+          </div>
+          <div class="">
+            <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 pt-2">
+              <div class="d-flex justify-content-start align-items-center gap-3">
+                <div class="text-black-50" id="FilterTitle">
+                  <span>Filtros:</span>
+                </div>
+                <div>
+                  <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Subidos</button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="#">Este Mes</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Este Dia</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Este Año</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Tipo</button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="#">Insumo</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Semilla</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div class="text-black fw-light" id="idCard">
-                  <div>ID: <span class="fw-bolder">32</span></div>
-                  <div>Tipo.: <span class="fw-bolder">Semilla</span></div>
-                  <div>Cant..: <span class="fw-bolder">500</span></div>
+              <div class="d-flex justify-content-start align-items-center gap-3">
+                <div class="text-black-50" id="FilterTitle">
+                  <span>Ordenar por:</span>
+                </div>
+                <div>
+                  <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Ordenar</button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="#">Precio Mayor a Menor</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Precio Menor a Mayor</a>
+                      </li>
+                      <li class="dropdown-divider"></li>
+
+                      <li>
+                        <a class="dropdown-item" href="#">Mas Vendidos</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Menos Vendidos</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card-footer px-0 border-top-0 bg-body">
-            <div class="d-flex w-100 justify-content-between px-3">
-              <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start">
+          <div class="d-flex gap-1">
+            <span>Has Vendido</span><span class="fw-bold">50</span><span>Productos</span>
+          </div>
+          <div class="d-flex gap-1">
+            <span>Total Vendido:</span><span class="fw-bold">$250.000</span>
+          </div>
+        </div>
+      </div>
+      <div id="cards" class="d-flex justify-content-md-start justify-content-center flex-wrap gap-2 align-content-center">
+        <div id="card" class="col">
+          <div id="title_card1" class="card rounded-1 border-0 shadow">
+            <div class="card-body border-black py-2 border-bottom-0">
+              <div class="d-flex justify-content-between flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>Semilla Organica</span>
+                  <div class="w-25">
+                    <img src="{% static 'icon/Brand.svg' %}" alt="" />
+                  </div>
+                </div>
+                <div>
+                  <div class="text-black fw-light" id="idCard">
+                    <div>
+                      ID: <span class="fw-bolder">32</span>
+                    </div>
+                    <div>
+                      Tipo.: <span class="fw-bolder">Semilla</span>
+                    </div>
+                    <div>
+                      Stock..: <span class="fw-bolder">500</span>
+                    </div>
+                    <div>
+                      Unid. Vendidas..: <span class="fw-bolder">500</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.
+            <div class="card-footer px-0 border-top-0 bg-body">
+              <div class="d-flex w-100 justify-content-between px-3">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
+              </div>
+              <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.</div>
+              <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
+                <span class="text-black fs-6 fw-semibold">$100.000</span>
+                <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
+              </div>
             </div>
-            <div class="d-flex px-3 w-100">
-              <span class="text-black fs-6 fw-semibold">$100.000</span>
+            <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334" style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
+                  <g>
+                    <path d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208" style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
+                  <g>
+                    <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
+                    <path d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z"></path>
+                    <path d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z"></path>
+                    <path d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z"></path>
+                    <path d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
+                  <g>
+                    <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
+                    <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path>
+                  </g>
+                </svg>
+              </a>
             </div>
           </div>
-          <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
-            <a href="" class=" rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-              id="AddToCarro">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30">
-                <path
-                  d="M4 7C3.449219 7 3 7.449219 3 8C3 8.550781 3.449219 9 4 9L6.21875 9L8.84375 19.5C9.066406 20.390625 9.863281 21 10.78125 21L23.25 21C24.152344 21 24.917969 20.402344 25.15625 19.53125L27.75 10L25.65625 10L23.25 19L10.78125 19L8.15625 8.5C7.933594 7.609375 7.136719 7 6.21875 7 Z M 22 21C20.355469 21 19 22.355469 19 24C19 25.644531 20.355469 27 22 27C23.644531 27 25 25.644531 25 24C25 22.355469 23.644531 21 22 21 Z M 13 21C11.355469 21 10 22.355469 10 24C10 25.644531 11.355469 27 13 27C14.644531 27 16 25.644531 16 24C16 22.355469 14.644531 21 13 21 Z M 16 7L16 10L13 10L13 12L16 12L16 15L18 15L18 12L21 12L21 10L18 10L18 7 Z M 13 23C13.5625 23 14 23.4375 14 24C14 24.5625 13.5625 25 13 25C12.4375 25 12 24.5625 12 24C12 23.4375 12.4375 23 13 23 Z M 22 23C22.5625 23 23 23.4375 23 24C23 24.5625 22.5625 25 22 25C21.4375 25 21 24.5625 21 24C21 23.4375 21.4375 23 22 23Z" />
-              </svg></a>
-            <a href="" class=" rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-              id="AddToCarro">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30">
-                <path
-                  d="M4 7C3.449219 7 3 7.449219 3 8C3 8.550781 3.449219 9 4 9L6.21875 9L8.84375 19.5C9.066406 20.390625 9.863281 21 10.78125 21L23.25 21C24.152344 21 24.917969 20.402344 25.15625 19.53125L27.75 10L25.65625 10L23.25 19L10.78125 19L8.15625 8.5C7.933594 7.609375 7.136719 7 6.21875 7 Z M 22 21C20.355469 21 19 22.355469 19 24C19 25.644531 20.355469 27 22 27C23.644531 27 25 25.644531 25 24C25 22.355469 23.644531 21 22 21 Z M 13 21C11.355469 21 10 22.355469 10 24C10 25.644531 11.355469 27 13 27C14.644531 27 16 25.644531 16 24C16 22.355469 14.644531 21 13 21 Z M 16 7L16 10L13 10L13 12L16 12L16 15L18 15L18 12L21 12L21 10L18 10L18 7 Z M 13 23C13.5625 23 14 23.4375 14 24C14 24.5625 13.5625 25 13 25C12.4375 25 12 24.5625 12 24C12 23.4375 12.4375 23 13 23 Z M 22 23C22.5625 23 23 23.4375 23 24C23 24.5625 22.5625 25 22 25C21.4375 25 21 24.5625 21 24C21 23.4375 21.4375 23 22 23Z" />
-              </svg></a>
-            <a href="" class=" rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-              id="AddToCarro">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30">
-                <path
-                  d="M4 7C3.449219 7 3 7.449219 3 8C3 8.550781 3.449219 9 4 9L6.21875 9L8.84375 19.5C9.066406 20.390625 9.863281 21 10.78125 21L23.25 21C24.152344 21 24.917969 20.402344 25.15625 19.53125L27.75 10L25.65625 10L23.25 19L10.78125 19L8.15625 8.5C7.933594 7.609375 7.136719 7 6.21875 7 Z M 22 21C20.355469 21 19 22.355469 19 24C19 25.644531 20.355469 27 22 27C23.644531 27 25 25.644531 25 24C25 22.355469 23.644531 21 22 21 Z M 13 21C11.355469 21 10 22.355469 10 24C10 25.644531 11.355469 27 13 27C14.644531 27 16 25.644531 16 24C16 22.355469 14.644531 21 13 21 Z M 16 7L16 10L13 10L13 12L16 12L16 15L18 15L18 12L21 12L21 10L18 10L18 7 Z M 13 23C13.5625 23 14 23.4375 14 24C14 24.5625 13.5625 25 13 25C12.4375 25 12 24.5625 12 24C12 23.4375 12.4375 23 13 23 Z M 22 23C22.5625 23 23 23.4375 23 24C23 24.5625 22.5625 25 22 25C21.4375 25 21 24.5625 21 24C21 23.4375 21.4375 23 22 23Z" />
-              </svg></a>
+        </div>
+        <div id="card" class="col">
+          <div id="title_card1" class="card rounded-1 border-0 shadow">
+            <div class="card-body border-black py-2 border-bottom-0">
+              <div class="d-flex justify-content-between flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>Semilla Organica</span>
+                  <div class="w-25">
+                    <img src="{% static 'icon/Brand.svg' %}" alt="" />
+                  </div>
+                </div>
+                <div>
+                  <div class="text-black fw-light" id="idCard">
+                    <div>
+                      ID: <span class="fw-bolder">32</span>
+                    </div>
+                    <div>
+                      Tipo.: <span class="fw-bolder">Semilla</span>
+                    </div>
+                    <div>
+                      Stock..: <span class="fw-bolder">500</span>
+                    </div>
+                    <div>
+                      Unid. Vendidas..: <span class="fw-bolder">500</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer px-0 border-top-0 bg-body">
+              <div class="d-flex w-100 justify-content-between px-3">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
+              </div>
+              <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.</div>
+              <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
+                <span class="text-black fs-6 fw-semibold">$100.000</span>
+                <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
+              </div>
+            </div>
+            <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334" style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
+                  <g>
+                    <path d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208" style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
+                  <g>
+                    <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
+                    <path d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z"></path>
+                    <path d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z"></path>
+                    <path d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z"></path>
+                    <path d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
+                  <g>
+                    <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
+                    <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path>
+                  </g>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div id="card" class="col">
+          <div id="title_card1" class="card rounded-1 border-0 shadow">
+            <div class="card-body border-black py-2 border-bottom-0">
+              <div class="d-flex justify-content-between flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>Semilla Organica</span>
+                  <div class="w-25">
+                    <img src="{% static 'icon/Brand.svg' %}" alt="" />
+                  </div>
+                </div>
+                <div>
+                  <div class="text-black fw-light" id="idCard">
+                    <div>
+                      ID: <span class="fw-bolder">32</span>
+                    </div>
+                    <div>
+                      Tipo.: <span class="fw-bolder">Semilla</span>
+                    </div>
+                    <div>
+                      Stock..: <span class="fw-bolder">500</span>
+                    </div>
+                    <div>
+                      Unid. Vendidas..: <span class="fw-bolder">500</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer px-0 border-top-0 bg-body">
+              <div class="d-flex w-100 justify-content-between px-3">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
+              </div>
+              <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.</div>
+              <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
+                <span class="text-black fs-6 fw-semibold">$100.000</span>
+                <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
+              </div>
+            </div>
+            <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334" style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
+                  <g>
+                    <path d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208" style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
+                  <g>
+                    <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
+                    <path d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z"></path>
+                    <path d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z"></path>
+                    <path d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z"></path>
+                    <path d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
+                  <g>
+                    <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
+                    <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path>
+                  </g>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <script src="{% static 'js/ImagenProducto.js' %}"></script>
 {% endblock %}

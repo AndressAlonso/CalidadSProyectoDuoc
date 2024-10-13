@@ -4,4 +4,52 @@
 }
 main{
     padding: 1rem 0rem;
+    min-height: 80vh;
+}
+
+@media (min-width: 425px) {
+    #card {
+        flex-grow: 1;
+    }
+    #añadirProductos{
+        flex-wrap: nowrap !important;
+    }
+}
+
+#AddToCarro:hover{
+    background-color: #e8eeea !important;
+    border-color: #1e7e34 !important;
+    color: #fff;
+    transition: 0.5s all;
+
+}
+#left{
+    min-height:250px;
+}
+
+@media (min-width: 1024px) {}
+
+.card {
+    min-width: 254.543px;
+    border-radius: 47px 0px 14px 16px;
+    -moz-border-radius: 47px 0px 14px 16px;
+    -webkit-border-radius: 47px 0px 14px 16px;
+}
+
+#idCard {
+    font-size: small;
+
+}
+
+#cardMarca {
+    font-size: smaller;
+
+}
+
+
+#cardDesc {
+    font-size: small;
+    text-wrap: balance;
+    height: 78px;
+    overflow-y: scroll;
 }

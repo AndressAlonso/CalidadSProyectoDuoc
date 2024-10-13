@@ -1,34 +1,13 @@
-#cards_container {
-    display: flex;
-    justify-content: center;
-}
-
-@media (min-width: 1024px) {
+@media (min-width: 425px) {
     #card {
         flex-grow: 1;
-        max-width: 23%;
+    }
+    #añadirProductos{
+        flex-wrap: nowrap !important;
     }
 }
 
-.card {
-    border-radius: 47px 0px 14px 16px;
-    -moz-border-radius: 47px 0px 14px 16px;
-    -webkit-border-radius: 47px 0px 14px 16px;
-}
 
-#idCard{
-    font-size: small;
-    
-}
-
-#cardMarca{
-    font-size: smaller;
-
-}
-
-
-#cardDesc{
-    font-size: small;
-    text-wrap: balance;
-    height: 78px;
+#left{
+    min-height:250px;
 }
