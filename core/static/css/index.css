@@ -1,14 +1,24 @@
 #card:hover #imgProducto {
-    transform: scale(1.1); /* Increase size by 10% */
-    transition: transform 0.3s ease; /* Smooth transition */
+    transform: scale(1.1);
+    /* Increase size by 10% */
+    transition: transform 0.3s ease;
+    /* Smooth transition */
 }
 
 
-#AddToCarro:hover{
+#AddToCarro:hover {
     background-color: #000000 !important;
     border-color: #1e7e34 !important;
     color: #fff;
     transition: 0.5s all;
+}
+
+#imgProducto img{
+    border-radius: 50%;
+    width: 100%;
+    height: auto;
+    filter: brightness(1);
+    mix-blend-mode: multiply;
 }
 
 @media (min-width: 1024px) {}

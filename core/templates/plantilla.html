@@ -10,7 +10,7 @@
     <script src="{% static 'js/mensaje.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/All.css' %}" />
     {% block links %}
-    
+
     {% endblock %}
   </head>
 
@@ -23,25 +23,30 @@
           </div>
           <div class="modal-body">
             <div id="datosCuenta" class="w-100 flex-wrap d-flex justify-content-around align-items-center flex-row py-3">
-              <div class="flex-fill d-flex justify-content-center align-items-center flex-column">
-                <span>Usuario: No Registrado</span>
-                <span>Email: No Registrado</span>
-                <span>Ventas: No Registrado</span>
-              </div>
+              {% if user.is_authenticated %}
+                <div class="flex-fill d-flex justify-content-center align-items-center flex-column">
+                  <span>Usuario: {{ usuario.tipoUsuario.Tipo }}</span>
+                  <span>Email: {{ usuario.usuario.email|default:'No Registrado' }}</span>
+                  <span>Ventas: {{ usuario.ventas|default:'No Registrado' }}</span>
+                </div>
+              {% else %}
+                <div class="flex-fill d-flex justify-content-center align-items-center flex-column">
+                  <span>Usuario: No Registrado</span>
+                  <span>Email: No Registrado</span>
+                  <span>Ventas: No Registrado</span>
+                </div>
+              {% endif %}
               <div class="flex-fill d-flex justify-content-center flex-column gap-3 align-items-center">
                 <a href="{% url 'GestProducto' %}" class="btn btn-success w-100">Carrito</a>
                 <a href="{% url 'GestProducto' %}" class="btn btn-success w-100">Gestionar Tus productos</a>
                 <a href="{% url 'adminConfig' %}" class="btn btn-success w-100">Administrador</a>
               </div>
             </div>
-  
           </div>
           <div class="modal-footer">
             <div id="btnsCuenta" class="d-flex w-100 gap-2 justify-content-around align-items-center">
               <a href="" class="btn btn-success w-50">¿Eres Nuevo? Registrate!.</a>
               <a href="" class="btn btn-light w-50">¿Ya tienes Cuenta? Inicia Sesion.</a>
-    
-    
             </div>
           </div>
         </div>
