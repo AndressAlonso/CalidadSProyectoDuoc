@@ -1,0 +1,9 @@
+#descProducto{
+    width: 100%;
+}
+
+@media (min-width: 991px) {
+    #descProducto{
+        width: 25%;
+    }
+}

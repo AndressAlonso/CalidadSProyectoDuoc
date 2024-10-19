@@ -1,145 +1,82 @@
 {% extends 'plantilla.html' %}
 {% load static %}
+{% load humanize %}
 {% block links %}
   <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 {% endblock %}
 
 {% block content %}
-  <div class="slider-wrapper" style="height: 100vh;" id="slider-1716382032">
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="https://chilehuerta.cl/wp-content/uploads/2024/03/Slider-Home-3-1202x800.png" class="d-block w-100" style="height: 100vh;" alt="Slider 3" />
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="alt-font">Texto 1</h3>
-            <h2 class="uppercase"><strong>Texto 2</strong></h2>
-            <a href="" class="btn btn-outline-light">Ver aquí</a>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <img src="https://chilehuerta.cl/wp-content/uploads/2024/03/Slider-Home-2-1202x800.png" class="d-block w-100" style="height: 100vh;" alt="Slider 2" />
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="alt-font">Texto 1</h3>
-            <a href="" class="btn btn-outline-light">Texto 2</a>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <img src="https://chilehuerta.cl/wp-content/uploads/2024/03/Slider-Home-5-1202x800.png" class="d-block w-100" alt="Slider 4" style="height: 100vh;" />
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="alt-font">Texto 1</h3>
-            <h2 class="uppercase"><strong>Texto 2</strong></h2>
-            <p class="lead">Texto 3</p>
-            <a href="" class="btn btn-light">Asesorías</a>
-          </div>
-        </div>
+  <div class="">
+    <div class="image-container d-flex flex-column justify-content-center align-items-center py-3 py-md-0">
+      <div id="presentationText" class="w-75 text-center d-flex flex-column">
+        <span class="fs-4 fw-bold">Semillas Organicas Certificadas y Libre De Quimicos</span>
+        <span class="text-center fw-light">Nuestra ONG Life & Sustainability Today, conectamos a agricultores y jardineros apasionados con semillas de alta calidad. Nuestra misión es promover la agricultura sostenible y el acceso a una gran variedad de productos naturales. ¡Busca, filtra y encuentra las semillas perfectas para tu proyecto de cultivo!</span>
       </div>
-
-      <!-- Carousel Controls -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
-
-  <div>
-    <div>
-      <div class="mt-3">
-        <span class="fw-bold">Encuentra tu Producto</span>
-      </div>
-      <div class="d-flex flex-row flex-wrap gap-2 justify-content-between">
-        <div id="botonesFiltros" class="d-flex flex-wrap justify-content-start align-items-center gap-3 py-2">
-          <div class="">
-            <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 pt-2">
-              <div class="d-flex justify-content-start align-items-center gap-3">
-                <div class="text-black-50" id="FilterTitle">
-                  <span>Filtros:</span>
-                </div>
-                <div>
-                  <div class="btn-group">
-                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Subidos</button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="#">Este Mes</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Este Dia</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Este Año</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="btn-group">
-                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Tipo</button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="#">Insumo</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Semilla</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex justify-content-start align-items-center gap-3">
-                <div class="text-black-50" id="FilterTitle">
-                  <span>Ordenar por:</span>
-                </div>
-                <div>
-                  <div class="btn-group">
-                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Ordenar</button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="#">Precio Mayor a Menor</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Precio Menor a Mayor</a>
-                      </li>
-                      <li class="dropdown-divider"></li>
-
-                      <li>
-                        <a class="dropdown-item" href="#">Mas Vendidos</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Menos Vendidos</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="">
+        <div class="mt-3 my-2 text-center text-sm-start">
+          <span class="fw-bold fs-6">Encuentra tu Producto</span>
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="30" width="30" viewBox="0 -2 512 511"><g id="surface1"><path d="M 296.078125 152.296875 C 296.078125 231.980469 231.480469 296.578125 151.796875 296.578125 C 72.113281 296.578125 7.515625 231.980469 7.515625 152.296875 C 7.515625 72.613281 72.113281 8.015625 151.796875 8.015625 C 231.480469 8.015625 296.078125 72.613281 296.078125 152.296875 Z M 296.078125 152.296875 " style=" stroke:none;fill-rule:nonzero;fill:rgb(98.039216%,54.901961%,53.72549%);fill-opacity:1;" /><path d="M 264.015625 152.296875 C 264.015625 214.273438 213.773438 264.515625 151.796875 264.515625 C 89.820312 264.515625 39.578125 214.273438 39.578125 152.296875 C 39.578125 90.320312 89.820312 40.078125 151.796875 40.078125 C 213.773438 40.078125 264.015625 90.320312 264.015625 152.296875 Z M 264.015625 152.296875 " style=" stroke:none;fill-rule:nonzero;fill:rgb(94.509804%,93.72549%,94.117647%);fill-opacity:1;" /><path d="M 175.84375 248.484375 C 113.867188 248.484375 63.625 198.242188 63.625 136.265625 C 63.625 102.496094 78.542969 72.210938 102.148438 51.640625 C 65.074219 69.960938 39.578125 108.148438 39.578125 152.296875 C 39.578125 214.273438 89.820312 264.515625 151.796875 264.515625 C 180.003906 264.515625 205.777344 254.105469 225.492188 236.921875 C 210.523438 244.320312 193.671875 248.484375 175.84375 248.484375 Z M 175.84375 248.484375 " style=" stroke:none;fill-rule:nonzero;fill:rgb(91.764706%,90.588235%,90.980392%);fill-opacity:1;" /><path d="M 87.671875 168.328125 C 87.671875 132.914062 151.796875 72.140625 151.796875 72.140625 C 151.796875 72.140625 215.921875 132.914062 215.921875 168.328125 C 215.921875 203.742188 187.210938 232.453125 151.796875 232.453125 C 116.382812 232.453125 87.671875 203.742188 87.671875 168.328125 Z M 87.671875 168.328125 " style=" stroke:none;fill-rule:nonzero;fill:rgb(65.882353%,87.843137%,34.901961%);fill-opacity:1;" /><path d="M 175.84375 224.4375 C 140.429688 224.4375 111.71875 195.726562 111.71875 160.3125 C 111.71875 136.367188 141.027344 100.835938 160.015625 80.328125 C 155.019531 75.195312 151.796875 72.140625 151.796875 72.140625 C 151.796875 72.140625 87.671875 132.914062 87.671875 168.328125 C 87.671875 203.742188 116.382812 232.453125 151.796875 232.453125 C 163.417969 232.453125 174.308594 229.347656 183.707031 223.941406 C 181.128906 224.257812 178.507812 224.4375 175.84375 224.4375 Z M 175.84375 224.4375 " style=" stroke:none;fill-rule:nonzero;fill:rgb(57.254902%,85.098039%,18.823529%);fill-opacity:1;" /><path d="M 492.261719 453.085938 L 368.019531 328.84375 C 357.0625 317.886719 339.296875 317.886719 328.34375 328.84375 C 317.386719 339.800781 317.386719 357.5625 328.34375 368.519531 L 452.585938 492.761719 C 460.800781 500.976562 473.605469 503.273438 484.164062 498.414062 C 487.171875 497.027344 489.917969 495.101562 492.261719 492.761719 C 503.21875 481.804688 503.21875 464.042969 492.261719 453.085938 Z M 492.261719 453.085938 " style=" stroke:none;fill-rule:nonzero;fill:rgb(55.294118%,49.803922%,52.156863%);fill-opacity:1;" /><path d="M 468.617188 476.730469 L 344.375 352.488281 C 336.269531 344.382812 334.167969 332.5625 338.050781 322.519531 C 334.511719 323.886719 331.195312 325.988281 328.34375 328.84375 C 317.386719 339.796875 317.386719 357.5625 328.34375 368.519531 L 452.585938 492.761719 C 460.800781 500.972656 473.605469 503.273438 484.164062 498.410156 C 487.171875 497.027344 489.917969 495.101562 492.261719 492.761719 C 495.117188 489.902344 497.222656 486.582031 498.585938 483.042969 C 488.363281 486.984375 476.417969 484.53125 468.617188 476.730469 Z M 468.617188 476.730469 " style=" stroke:none;fill-rule:nonzero;fill:rgb(49.411765%,43.529412%,45.882353%);fill-opacity:1;" /><path d="M 151.796875 32.5625 C 85.773438 32.5625 32.0625 86.273438 32.0625 152.296875 C 32.0625 218.320312 85.773438 272.03125 151.796875 272.03125 C 217.820312 272.03125 271.53125 218.320312 271.53125 152.296875 C 271.53125 86.273438 217.820312 32.5625 151.796875 32.5625 Z M 151.796875 257 C 94.0625 257 47.09375 210.03125 47.09375 152.296875 C 47.09375 94.5625 94.0625 47.59375 151.796875 47.59375 C 209.53125 47.59375 256.5 94.5625 256.5 152.296875 C 256.5 210.03125 209.53125 257 151.796875 257 Z M 151.796875 257 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 156.964844 66.6875 C 154.066406 63.941406 149.527344 63.941406 146.628906 66.6875 C 145.960938 67.320312 130.0625 82.4375 113.914062 102.199219 C 91.515625 129.613281 80.15625 151.863281 80.15625 168.328125 C 80.15625 207.828125 112.292969 239.96875 151.796875 239.96875 C 191.296875 239.96875 223.4375 207.828125 223.4375 168.328125 C 223.4375 151.863281 212.078125 129.613281 189.679688 102.199219 C 173.53125 82.433594 157.636719 67.320312 156.964844 66.6875 Z M 159.3125 224.425781 L 159.3125 196.132812 L 188.367188 174.339844 C 191.6875 171.851562 192.359375 167.136719 189.871094 163.820312 C 187.382812 160.5 182.667969 159.828125 179.351562 162.316406 L 159.3125 177.34375 L 159.3125 156.316406 L 180.011719 142.519531 C 183.464844 140.21875 184.398438 135.550781 182.09375 132.097656 C 179.792969 128.644531 175.128906 127.710938 171.675781 130.015625 L 159.3125 138.257812 L 159.3125 120.234375 C 159.3125 116.085938 155.945312 112.71875 151.796875 112.71875 C 147.644531 112.71875 144.28125 116.085938 144.28125 120.234375 L 144.28125 138.257812 L 131.917969 130.011719 C 128.464844 127.710938 123.796875 128.644531 121.496094 132.097656 C 119.195312 135.550781 120.128906 140.214844 123.582031 142.515625 L 144.28125 156.316406 L 144.28125 177.34375 L 124.242188 162.316406 C 120.921875 159.828125 116.210938 160.5 113.722656 163.820312 C 111.230469 167.136719 111.90625 171.851562 115.226562 174.339844 L 144.28125 196.132812 L 144.28125 224.425781 C 116.609375 220.734375 95.1875 196.992188 95.1875 168.328125 C 95.1875 144.292969 132.222656 102.242188 151.796875 82.640625 C 171.375 102.234375 208.40625 144.269531 208.40625 168.328125 C 208.40625 196.996094 186.984375 220.734375 159.3125 224.425781 Z M 159.3125 224.425781 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 470.019531 420.21875 C 467.085938 417.28125 462.328125 417.28125 459.394531 420.21875 C 456.457031 423.152344 456.457031 427.910156 459.394531 430.84375 L 486.945312 458.398438 C 494.863281 466.316406 494.863281 479.527344 486.945312 487.445312 C 479.09375 495.300781 465.769531 495.316406 457.898438 487.445312 L 333.65625 363.203125 C 325.738281 355.285156 325.738281 342.074219 333.65625 334.15625 C 341.574219 326.238281 354.785156 326.238281 362.703125 334.15625 L 435.097656 406.546875 C 438.03125 409.480469 442.789062 409.480469 445.722656 406.546875 C 448.65625 403.613281 448.65625 398.855469 445.722656 395.921875 L 373.332031 323.527344 C 364.441406 314.640625 351.230469 311.078125 339.066406 314.285156 C 335.472656 315.234375 332.03125 316.757812 328.910156 318.78125 L 264.265625 254.136719 C 288.691406 227.1875 303.59375 191.449219 303.59375 152.296875 C 303.59375 136.304688 301.101562 120.886719 296.492188 106.398438 L 323.238281 79.65625 L 368.21875 79.65625 C 372.371094 79.65625 375.734375 76.289062 375.734375 72.140625 C 375.734375 67.988281 372.371094 64.625 368.21875 64.625 L 320.125 64.625 C 318.132812 64.625 316.21875 65.417969 314.8125 66.828125 L 290.648438 90.992188 C 267.046875 37.742188 213.691406 0.5 151.796875 0.5 C 68.09375 0.5 0 68.597656 0 152.296875 C 0 235.996094 68.09375 304.09375 151.796875 304.09375 C 190.949219 304.09375 226.6875 289.191406 253.636719 264.765625 L 318.28125 329.410156 C 311.320312 340.160156 310.761719 354.300781 316.855469 365.566406 C 318.496094 368.601562 320.589844 371.390625 323.027344 373.832031 L 447.273438 498.074219 C 457.699219 508.503906 474.085938 511.402344 487.460938 505.164062 C 491.214844 503.414062 494.644531 501.003906 497.574219 498.074219 C 508.03125 487.617188 510.941406 471.277344 504.667969 457.863281 C 502.917969 454.117188 500.5 450.695312 497.574219 447.773438 Z M 151.796875 289.0625 C 76.382812 289.0625 15.03125 227.710938 15.03125 152.296875 C 15.03125 76.882812 76.382812 15.53125 151.796875 15.53125 C 227.210938 15.53125 288.5625 76.882812 288.5625 152.296875 C 288.5625 227.710938 227.210938 289.0625 151.796875 289.0625 Z M 151.796875 289.0625 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 400.28125 47.59375 L 448.375 47.59375 C 452.527344 47.59375 455.890625 44.226562 455.890625 40.078125 C 455.890625 35.925781 452.527344 32.5625 448.375 32.5625 L 400.28125 32.5625 C 396.132812 32.5625 392.765625 35.925781 392.765625 40.078125 C 392.765625 44.226562 396.132812 47.59375 400.28125 47.59375 Z M 400.28125 47.59375 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 480.4375 47.59375 L 504.484375 47.59375 C 508.636719 47.59375 512 44.226562 512 40.078125 C 512 35.925781 508.636719 32.5625 504.484375 32.5625 L 480.4375 32.5625 C 476.289062 32.5625 472.921875 35.925781 472.921875 40.078125 C 472.921875 44.226562 476.289062 47.59375 480.4375 47.59375 Z M 480.4375 47.59375 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 504.484375 64.625 L 400.28125 64.625 C 396.132812 64.625 392.765625 67.988281 392.765625 72.140625 C 392.765625 76.289062 396.132812 79.65625 400.28125 79.65625 L 504.484375 79.65625 C 508.636719 79.65625 512 76.289062 512 72.140625 C 512 67.988281 508.636719 64.625 504.484375 64.625 Z M 504.484375 64.625 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 400.28125 111.71875 L 432.34375 111.71875 C 436.496094 111.71875 439.859375 108.351562 439.859375 104.203125 C 439.859375 100.050781 436.496094 96.6875 432.34375 96.6875 L 400.28125 96.6875 C 396.132812 96.6875 392.765625 100.050781 392.765625 104.203125 C 392.765625 108.351562 396.132812 111.71875 400.28125 111.71875 Z M 400.28125 111.71875 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 504.484375 96.6875 L 464.40625 96.6875 C 460.257812 96.6875 456.890625 100.050781 456.890625 104.203125 C 456.890625 108.351562 460.257812 111.71875 464.40625 111.71875 L 504.484375 111.71875 C 508.636719 111.71875 512 108.351562 512 104.203125 C 512 100.050781 508.636719 96.6875 504.484375 96.6875 Z M 504.484375 96.6875 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 504.484375 128.75 L 400.28125 128.75 C 396.132812 128.75 392.765625 132.113281 392.765625 136.265625 C 392.765625 140.414062 396.132812 143.78125 400.28125 143.78125 L 504.484375 143.78125 C 508.636719 143.78125 512 140.414062 512 136.265625 C 512 132.113281 508.636719 128.75 504.484375 128.75 Z M 504.484375 128.75 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 225.835938 394.664062 C 206.058594 414.4375 179.765625 425.328125 151.796875 425.328125 C 123.828125 425.328125 97.535156 414.4375 77.757812 394.664062 C 74.824219 391.726562 70.066406 391.726562 67.132812 394.664062 C 64.199219 397.597656 64.199219 402.355469 67.132812 405.289062 C 89.746094 427.902344 119.816406 440.359375 151.796875 440.359375 C 183.777344 440.359375 213.84375 427.902344 236.460938 405.289062 C 239.394531 402.355469 239.394531 397.597656 236.460938 394.664062 C 233.527344 391.726562 228.769531 391.730469 225.835938 394.664062 Z M 225.835938 394.664062 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 174.113281 342.941406 C 177.046875 340.007812 177.046875 335.25 174.113281 332.316406 C 171.179688 329.382812 166.421875 329.382812 163.488281 332.316406 C 160.363281 335.4375 156.214844 337.160156 151.796875 337.160156 C 147.382812 337.160156 143.230469 335.4375 140.109375 332.316406 C 137.171875 329.382812 132.414062 329.382812 129.480469 332.316406 C 126.546875 335.25 126.546875 340.007812 129.480469 342.941406 C 135.441406 348.90625 143.367188 352.1875 151.796875 352.1875 C 160.230469 352.1875 168.152344 348.90625 174.113281 342.941406 Z M 174.113281 342.941406 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" /><path d="M 101.140625 360.65625 C 98.203125 363.589844 98.203125 368.347656 101.140625 371.28125 C 114.671875 384.8125 132.660156 392.265625 151.796875 392.265625 C 170.933594 392.265625 188.921875 384.8125 202.453125 371.28125 C 205.386719 368.347656 205.386719 363.589844 202.453125 360.65625 C 199.519531 357.71875 194.761719 357.71875 191.828125 360.65625 C 181.132812 371.347656 166.917969 377.234375 151.796875 377.234375 C 136.675781 377.234375 122.460938 371.347656 111.765625 360.65625 C 108.832031 357.71875 104.074219 357.71875 101.140625 360.65625 Z M 101.140625 360.65625 " style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" />
+          </g></svg>
         </div>
-        <div class="d-flex justify-content-around align-items-start">
-          <form class="d-flex justify-content-center align-items-center my-2 my-lg-0">
-            <input class="form-control-plaintext bg-success-subtle p-2 mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button id="AddToCarro" class="btn my-2 my-sm-0" type="submit">
+        <div class="d-flex justify-content-around align-items-start w-100">
+          <form method="get" class="w-100 d-flex justify-content-center align-items-center my-2 my-lg-0 flex-column flex-md-row mx-2 mx-sm-0">
+            <input class="form-control-plaintext rounded-2 bg-success-subtle p-2 mr-sm-2" type="search" placeholder="Buscar.." name="buscar" aria-label="Search" value="{{ request.GET.buscar }}" />
+            <button id="" class="btn d-block d-md-none btn-success w-100 fw-bolder my-2 my-sm-0" type="submit">
               <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 52.966 52.966" style="enable-background:new 0 0 52.966 52.966;" xml:space="preserve">
                 <path d="M51.704,51.273L36.845,35.82c3.79-3.801,6.138-9.041,6.138-14.82c0-11.58-9.42-21-21-21s-21,9.42-21,21s9.42,21,21,21 c5.083,0,9.748-1.817,13.384-4.832l14.895,15.491c0.196,0.205,0.458,0.307,0.721,0.307c0.25,0,0.499-0.093,0.693-0.279 C52.074,52.304,52.086,51.671,51.704,51.273z M21.983,40c-10.477,0-19-8.523-19-19s8.523-19,19-19s19,8.523,19,19 S32.459,40,21.983,40z" />
               </svg>
             </button>
           </form>
         </div>
+        <div class="d-flex flex-row flex-wrap gap-2 justify-content-between">
+          <form method="GET" class="w-100">
+            <div id="containerFiltros" class="d-flex flex-wrap justify-content-start">
+              <div id="botonesFiltros" class="d-flex flex-sm-row flex-column  justify-content-start align-items-center flex-fill">
+                <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
+                  <label class="form-label" for="id_fecha_subida">Subidos:</label>
+                  <select name="fecha_subida" id="id_fecha_subida" class="form-select">
+                    <option value="mes">Este Mes</option>
+                    <option value="dia">Este Dia</option>
+                    <option value="ano">Este Año</option>
+                  </select>
+                </div>
+                <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center flex-column">
+                  <label class="form-label" for="id_tipo">Tipo:</label>
+                  <select name="tipo" id="id_tipo" class="form-select">
+                    <option value="semilla">Semilla</option>
+                    <option value="insumo">Insumo</option>
+                  </select>
+                </div>
+                <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
+                  <label class="form-label" for="id_ordenar">Ordenar por:</label>
+                  <select name="ordenar" id="id_ordenar" value="" class="form-select">
+                    <option value="precio_desc">Precio Mayor a Menor</option>
+                    <option value="precio_asc">Precio Menor a Mayor</option>
+                    <option value="vendidos_desc">Más Vendidos</option>
+                    <option value="vendidos_asc">Menos Vendidos</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="w-100">
+              <button type="submit" class="btn btn-success my-2 ms-auto w-md-25 w-100">Aplicar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <div id="cards" class="d-flex flex-wrap justify-content-md-start justify-content-center flex-wrap gap-2 align-content-center">
+  </div>
+
+    <div id="cards" class="container-fluid d-flex flex-wrap w-100 justify-content-center flex-wrap gap-2 align-content-center my-3">
       {% for p in productos %}
-        <div id="card" class="col">
-          <div id="title_card1" class="card rounded-1 border-0 shadow">
-            <div class="card-body border-black py-2 border-bottom-0">
-              <div class="d-flex justify-content-between flex-column">
-                <div class="d-flex justify-content-between align-items-center">
-                  <span>{{ p.nombre }}</span>
+          <div id="title_card1" class="card rounded-1 w-100 border-0 shadow">
+            <div class="card-body border-black py-2 border-bottom-0 w-100">
+              <div class="d-flex justify-content-between w-100 flex-column">
+                <div class="d-flex justify-content-between w-100 align-items-start">
+                  <span class="w-50">{{ p.nombre }}</span>
                   <a href="" id="imgProducto" class="w-25 float-end">
-                    <img src="{{p.imagenUrl}}" class="w-100 "  alt="" /></a>
+                    <img src="{% static 'imgs/' %}{{ p.imagenUrl }}" style="height: 20vh !important; " class="w-100" alt="" />
+                  </a>
                 </div>
                 <div>
                   <div class="text-black fw-light" id="idCard">
@@ -150,38 +87,40 @@
                       Tipo.: <span class="fw-bolder">{{ p.tipo }}</span>
                     </div>
                     <div>
-                      Stock..: <span class="fw-bolder">{{ p.stock }}</span>
+                      Stock: <span class="fw-bolder">{{ p.stock }}</span>
                     </div>
                     {% if p.tipo == 'semilla' %}
                       <div>
-                        Stock..: <span class="fw-bolder">{{ p.cantidad }} Semillas Aprox.</span>
+                        Cantidad: <span class="fw-bolder">{{ p.cantidad }} Semillas Aprox.</span>
                       </div>
                     {% else %}
-
+                      
                     {% endif %}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="card-footer px-0 border-top-0 bg-body">
-              <div class="d-flex w-100 justify-content-between px-3">
-                <div class="text-black fw-semibold" id="cardMarca">Prov.: {{p.proveedor.usuario.first_name}} {{p.proveedor.usuario.last_name}} </div>
+            <div class="card-footer px-0 border-top-0 bg-body d-flex justify-content-start flex-column w-100 align-items-start">
+              <div class="d-flex w-100 justify-content-between px-3 ">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.: {{ p.proveedor.usuario.first_name }} {{ p.proveedor.usuario.last_name }}</div>
               </div>
-              <div class="px-3" id="cardDesc"> {{p.descripcion}} </div>
+              <div class="px-3" id="cardDesc">{{ p.descripcion }}</div>
               <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
-                <span class="text-black fs-6 fw-semibold">$ {{p.precio}} </span>
+                <span class="text-black fs-6 fw-semibold">$ {{ p.precio|intcomma }}</span>
               </div>
             </div>
             <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
-              <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+              <a href="{% url 'addToCar' p.id %}" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30">
                   <path d="M4 7C3.449219 7 3 7.449219 3 8C3 8.550781 3.449219 9 4 9L6.21875 9L8.84375 19.5C9.066406 20.390625 9.863281 21 10.78125 21L23.25 21C24.152344 21 24.917969 20.402344 25.15625 19.53125L27.75 10L25.65625 10L23.25 19L10.78125 19L8.15625 8.5C7.933594 7.609375 7.136719 7 6.21875 7 Z M 22 21C20.355469 21 19 22.355469 19 24C19 25.644531 20.355469 27 22 27C23.644531 27 25 25.644531 25 24C25 22.355469 23.644531 21 22 21 Z M 13 21C11.355469 21 10 22.355469 10 24C10 25.644531 11.355469 27 13 27C14.644531 27 16 25.644531 16 24C16 22.355469 14.644531 21 13 21 Z M 16 7L16 10L13 10L13 12L16 12L16 15L18 15L18 12L21 12L21 10L18 10L18 7 Z M 13 23C13.5625 23 14 23.4375 14 24C14 24.5625 13.5625 25 13 25C12.4375 25 12 24.5625 12 24C12 23.4375 12.4375 23 13 23 Z M 22 23C22.5625 23 23 23.4375 23 24C23 24.5625 22.5625 25 22 25C21.4375 25 21 24.5625 21 24C21 23.4375 21.4375 23 22 23Z" />
                 </svg>
               </a>
             </div>
           </div>
-        </div>
+      {% empty %}
+        <h3>Producto no encontrado o No Existe</h3>
       {% endfor %}
     </div>
-  </div>
+
+  <script src="{% static 'js/filtros.js' %}"></script>
 {% endblock %}

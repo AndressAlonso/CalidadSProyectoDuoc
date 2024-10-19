@@ -1,19 +1,48 @@
 #card:hover #imgProducto {
     transform: scale(1.1);
-    /* Increase size by 10% */
     transition: transform 0.3s ease;
-    /* Smooth transition */
+}
+
+select{
+    width: 25vh !important;
+}
+
+#filtro label {
+    width: 25vh;
+    text-align: start;
+    font-weight: normal;
+    margin: 0px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: .2rem;
+    padding: .2rem;
 }
 
 
 #AddToCarro:hover {
-    background-color: #000000 !important;
+    background-color: #1e7e34 !important;
     border-color: #1e7e34 !important;
     color: #fff;
     transition: 0.5s all;
 }
 
-#imgProducto img{
+#presentationText{
+    backdrop-filter: blur(1px);
+}
+
+.image-container {
+    width: 100%;
+    min-height: 80vh;
+    height: auto;
+    background-image:
+        linear-gradient(to bottom, white, rgba(255, 255, 255, 0)),
+        url('https://chilehuerta.cl/wp-content/uploads/2024/03/Slider-Home-3-1202x800.png');
+    background-size: cover;
+    background-position: center;
+}
+
+
+#imgProducto img {
     border-radius: 50%;
     width: 100%;
     height: auto;
@@ -21,11 +50,21 @@
     mix-blend-mode: multiply;
 }
 
-@media (min-width: 1024px) {}
 
+
+.card #title_card1{
+    max-width: 483.42px;
+    min-width: 254.543px;
+    flex-grow: 1;
+}
 .card {
     max-width: 483.42px;
     min-width: 254.543px;
+    min-height: 65vh;
+    min-width: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 47px 0px 14px 16px;
     -moz-border-radius: 47px 0px 14px 16px;
     -webkit-border-radius: 47px 0px 14px 16px;

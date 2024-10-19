@@ -7,7 +7,22 @@
     }
 }
 
+select{
+    width: 50vh !important;
+}
 
-#left{
-    min-height:250px;
+#filtro label {
+    width: 25vh;
+    text-align: start;
+    font-weight: normal;
+    margin: 0px;
+    border-radius: .2rem;
+    padding: .2rem;
+}
+
+#right div{
+    width: 100%;    
+}
+#left div{
+    width: 100%;    
 }

@@ -1,383 +1,373 @@
 {% extends "plantilla.html" %}
 {% load static %}
 {% block links %}
+{% load humanize %}
 <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+<link rel="stylesheet" href="{% static 'css/gestProducto.css' %}" />
+<script src="{% static 'js/modificarDatos.js' %}"></script>
 {% endblock links %}
 
+
 {% block content %}
-
-<div id="ultimosProductos" class="w-100">
-  <div id="Ptitle" class="w-100">
-    <div id="title" class="d-flex justify-content-center align-items-center">
-      <span class="text-center">Panel de Administrador</span>
-    </div>
-  </div>
-</div>
-<div>
-  <div>
-    <div class="mt-3">
-      <span class="fw-bold">Reportes</span>
-    </div>
-    <div class="d-flex flex-row flex-wrap gap-2 justify-content-between">
-      <div id="botonesFiltros" class="d-flex flex-wrap justify-content-start align-items-center gap-3 py-2">
-        <div>
-          <button type="button" id="AddToCarro" class="btn btn-light" data-bs-toggle="modal"
-            data-bs-target="#AgregarProducto">+</button>
+  <div class="modal fade" data-bs-backdrop="static" id="AgregarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Producto</h5>
         </div>
-        <div class="">
-          <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 pt-2">
-            <div class="d-flex justify-content-start align-items-center gap-3">
-              <div class="text-black-50" id="FilterTitle">
-                <span>Filtros:</span>
-              </div>
-              <div>
-                <div class="btn-group">
-                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Subidos</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Este Mes</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Este Dia</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Este Año</a>
-                    </li>
-                  </ul>
+        <div class="modal-body">
+          <form id="añadirProductos" action="{% url 'GestProducto' %}" enctype="multipart/form-data" method="POST" enctype="multipart/form-data" class="d-flex justify-content-between flex-wrap w-100 flex-column align-items-center gap-2">
+            {% csrf_token %}
+            <div id="formProductoL" class="flex-fill d-flex flex-column justify-content-center align-items-center gap-3 flex-sm-row w-100">
+                <div id="left" class="d-flex justify-content-center align-items-start flex-fill flex-column gap-3">
+                    <div>
+                        <label for="tipoProducto" class="form-label">Tipo</label>
+                        <select class="form-select w-100" name="tipoProducto" id="tipoProducto">
+                            <option value="semilla">Semilla</option>
+                            <option value="insumo">Insumo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="text" id="stock" name="stock" class="form-control" />
+                    </div>
+                    <div>
+                        <label for="nombreProducto" class="form-label">Nombre Producto</label>
+                        <input type="text" id="nombreProducto" name="nombreProducto" class="form-control" />
+                    </div>
                 </div>
-                <div class="btn-group">
-                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Tipo</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Insumo</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Semilla</a>
-                    </li>
-                  </ul>
+                <div id="right" class="d-flex justify-content-center align-items-start flex-fill flex-column gap-3">
+                    <div>
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="text" name="precio" class="form-control" />
+                    </div>
+                    <div>
+                        <label for="origen" class="form-label">Origen</label>
+                        <select class="form-select" name="origen" id="">
+                          {% for to in origenes %}
+                          <option value="{{to.id}}">{{to.tipo}}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="text" name="cantidad" class="form-control" />
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="d-flex justify-content-start align-items-center gap-3">
-              <div class="text-black-50" id="FilterTitle">
-                <span>Ordenar por:</span>
-              </div>
-              <div>
-                <div class="btn-group">
-                  <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Ordenar</button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Precio Mayor a Menor</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Precio Menor a Mayor</a>
-                    </li>
-                    <li class="dropdown-divider"></li>
-
-                    <li>
-                      <a class="dropdown-item" href="#">Mas Vendidos</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Menos Vendidos</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div class="w-100">
+                <label for="descP">Descripcion</label>
+                <textarea class="form-control" name="descripcion" id="descP"></textarea>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-column justify-content-center align-items-start">
-        <select class="form-select" name="" id="">
-          <option value="-1">Ultimos Subidos</option>
-          <option value="-1">Ventas</option>
-          <option value="-1">Inventario</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <div id="cards" class="d-flex justify-content-md-start justify-content-center flex-wrap gap-2 align-content-center">
-    <div id="card" class="col">
-      <div id="title_card1" class="card rounded-1 border-0 shadow">
-        <div class="card-body border-black py-2 border-bottom-0">
-          <div class="d-flex justify-content-between flex-column">
-            <div class="d-flex justify-content-between align-items-center">
-              <span>Semilla Organica</span>
-              <div class="w-25">
-                <img src="{% static 'icon/Brand.svg' %}" alt="" />
-              </div>
+            <div class="w-100 justify-content-center d-flex align-items-center">
+                <div>
+                    <label for="tiposemilla" class="form-label">Tipo Semilla</label>
+                    <select class="form-select" name="tiposemilla" id="tiposemilla">
+                        {% for ts in semillas %}
+                        <option value="{{ ts.id }}">{{ ts.tipo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="tipoInsumo" class="form-label">Tipo Insumo</label>
+                    <select class="form-select" name="tipoInsumo" id="tipoInsumo">
+                        {% for ti in insumos %}
+                        <option value="{{ ti.id }}">{{ ti.tipo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div>
-              <div class="text-black fw-light" id="idCard">
-                <div>
-                  ID: <span class="fw-bolder">32</span>
+            <div id="formProductoL" class="flex-fill w-100">
+                <div id="left" class="d-flex flex-column gap-3">
+                    <div class="w-100">
+                        <label for="imageInput" class="form-label">Sube Imagen de tu Producto</label>
+                        <input type="file" name="imagen" id="imageInput" class="form-control w-100" accept="image/*" />
+                    </div>
+                    <div class="w-100 d-flex justify-content-center align-items-center h-auto">
+                        <div id="imageContainer" class="overflow-y-scroll">
+                            <img height="100" class="img-fluid" width="100" src="{% static 'icon/Brand.svg' %}" alt="" />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                  Tipo.: <span class="fw-bolder">Semilla</span>
-                </div>
-                <div>
-                  Stock..: <span class="fw-bolder">500</span>
-                </div>
-                <div>
-                  Unid. Vendidas..: <span class="fw-bolder">500</span>
-                </div>
-              </div>
+                
             </div>
-          </div>
-        </div>
-        <div class="card-footer px-0 border-top-0 bg-body">
-          <div class="d-flex w-100 justify-content-between px-3">
-            <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
-          </div>
-          <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.
-          </div>
-          <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
-            <span class="text-black fs-6 fw-semibold">$100.000</span>
-            <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
-          </div>
-        </div>
-        <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334"
-              style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
-              <g>
-                <path
-                  d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208"
-              style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
-              <g>
-                <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
-                <path
-                  d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z">
-                </path>
-                <path
-                  d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z">
-                </path>
-                <path
-                  d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z">
-                </path>
-                <path
-                  d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882"
-              style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
-              <g>
-                <path
-                  d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z">
-                </path>
-                <path
-                  d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z">
-                </path>
-              </g>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div id="card" class="col">
-      <div id="title_card1" class="card rounded-1 border-0 shadow">
-        <div class="card-body border-black py-2 border-bottom-0">
-          <div class="d-flex justify-content-between flex-column">
-            <div class="d-flex justify-content-between align-items-center">
-              <span>Semilla Organica</span>
-              <div class="w-25">
-                <img src="{% static 'icon/Brand.svg' %}" alt="" />
-              </div>
+            <div class="w-100">
+                <button type="submit" class="border-0 btn w-100 btn-outline-success">Subir Producto</button>
             </div>
-            <div>
-              <div class="text-black fw-light" id="idCard">
-                <div>
-                  ID: <span class="fw-bolder">32</span>
-                </div>
-                <div>
-                  Tipo.: <span class="fw-bolder">Semilla</span>
-                </div>
-                <div>
-                  Stock..: <span class="fw-bolder">500</span>
-                </div>
-                <div>
-                  Unid. Vendidas..: <span class="fw-bolder">500</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        </form>
+        
+         
         </div>
-        <div class="card-footer px-0 border-top-0 bg-body">
-          <div class="d-flex w-100 justify-content-between px-3">
-            <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
-          </div>
-          <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.
-          </div>
-          <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
-            <span class="text-black fs-6 fw-semibold">$100.000</span>
-            <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
-          </div>
-        </div>
-        <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334"
-              style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
-              <g>
-                <path
-                  d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208"
-              style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
-              <g>
-                <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
-                <path
-                  d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z">
-                </path>
-                <path
-                  d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z">
-                </path>
-                <path
-                  d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z">
-                </path>
-                <path
-                  d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882"
-              style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
-              <g>
-                <path
-                  d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z">
-                </path>
-                <path
-                  d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z">
-                </path>
-              </g>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div id="card" class="col">
-      <div id="title_card1" class="card rounded-1 border-0 shadow">
-        <div class="card-body border-black py-2 border-bottom-0">
-          <div class="d-flex justify-content-between flex-column">
-            <div class="d-flex justify-content-between align-items-center">
-              <span>Semilla Organica</span>
-              <div class="w-25">
-                <img src="{% static 'icon/Brand.svg' %}" alt="" />
-              </div>
-            </div>
-            <div>
-              <div class="text-black fw-light" id="idCard">
-                <div>
-                  ID: <span class="fw-bolder">32</span>
-                </div>
-                <div>
-                  Tipo.: <span class="fw-bolder">Semilla</span>
-                </div>
-                <div>
-                  Stock..: <span class="fw-bolder">500</span>
-                </div>
-                <div>
-                  Unid. Vendidas..: <span class="fw-bolder">500</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer px-0 border-top-0 bg-body">
-          <div class="d-flex w-100 justify-content-between px-3">
-            <div class="text-black fw-semibold" id="cardMarca">Prov.: Andres Alvarado</div>
-          </div>
-          <div class="px-3" id="cardDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At minus placeat.
-          </div>
-          <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
-            <span class="text-black fs-6 fw-semibold">$100.000</span>
-            <span id="Vendido" class="text-black-50 fs-6">Unidades Vendidas * Precio = $250.000</span>
-          </div>
-        </div>
-        <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334"
-              style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
-              <g>
-                <path
-                  d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 476.208 476.208"
-              style="enable-background:new 0 0 476.208 476.208;" xml:space="preserve">
-              <g>
-                <path d="M0,21.213L21.213,0l454.995,454.995l-21.213,21.213L0,21.213z"></path>
-                <path
-                  d="M354.431,238.104c0-64.141-52.183-116.323-116.323-116.323c-15.573,0-30.437,3.084-44.024,8.66l151.687,151.687 C351.347,268.541,354.431,253.677,354.431,238.104z">
-                </path>
-                <path
-                  d="M384.431,238.104c0,23.978-5.798,46.627-16.065,66.619l18.518,18.518c32.142-22.136,59.114-51.239,78.724-85.137 c-30.729-53.118-79.526-94.471-137.986-115.665C362.158,149.229,384.431,191.112,384.431,238.104z">
-                </path>
-                <path
-                  d="M121.784,238.104c0,64.141,52.183,116.323,116.323,116.323c15.573,0,30.437-3.084,44.024-8.66L130.444,194.081 C124.868,207.668,121.784,222.532,121.784,238.104z">
-                </path>
-                <path
-                  d="M91.784,238.104c0-23.978,5.798-46.627,16.065-66.619l-18.518-18.518c-32.142,22.136-59.114,51.239-78.724,85.137 c30.729,53.118,79.526,94.471,137.986,115.665C114.056,326.979,91.784,285.097,91.784,238.104z">
-                </path>
-              </g>
-            </svg>
-          </a>
-          <a href="" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2"
-            id="AddToCarro">
-            <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882"
-              style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
-              <g>
-                <path
-                  d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z">
-                </path>
-                <path
-                  d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z">
-                </path>
-              </g>
-            </svg>
-          </a>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+          
         </div>
       </div>
     </div>
   </div>
+  <div class="modal fade" data-bs-backdrop="static" id="modificarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modificar Producto</h5>
+            </div>
+            <div class="modal-body">
+                <form id="añadirProductos" action="{% url 'GestProducto' %}" enctype="multipart/form-data" method="POST" class="d-flex justify-content-between flex-wrap w-100 flex-column align-items-center gap-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="producto_id" id="producto_id" />
+                    <div id="formProductoL" class="flex-fill d-flex flex-column justify-content-center align-items-center gap-3 flex-sm-row w-100">
+                        <div id="left" class="d-flex justify-content-center align-items-start flex-fill flex-column gap-3">
+                            <div>
+                                <label for="tipoProducto" class="form-label">Tipo</label>
+                                <select class="form-select w-100" name="tipoProducto" id="tipoProducto">
+                                    <option value="semilla">Semilla</option>
+                                    <option value="insumo">Insumo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="stock" class="form-label">Stock</label>
+                                <input type="text" id="stock" name="stock" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="nombreProducto" class="form-label">Nombre Producto</label>
+                                <input type="text" id="nombreProducto" name="nombreProducto" class="form-control" />
+                            </div>
+                        </div>
+                        <div id="right" class="d-flex justify-content-center align-items-start flex-fill flex-column gap-3">
+                            <div>
+                                <label for="precio" class="form-label">Precio</label>
+                                <input type="text" name="precio" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="origen" class="form-label">Origen</label>
+                                <select class="form-select" name="origen" id="">
+                                    {% for to in origenes %}
+                                    <option value="{{ to.id }}">{{ to.tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="cantidad" class="form-label">Cantidad</label>
+                                <input type="text" name="cantidad" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <label for="descP">Descripcion</label>
+                        <textarea class="form-control" name="descripcion" id="descP"></textarea>
+                    </div>
+                    <div class="w-100 justify-content-center d-flex align-items-center">
+                        <div>
+                            <label for="tiposemilla" class="form-label">Tipo Semilla</label>
+                            <select class="form-select" name="tiposemilla" id="tiposemilla">
+                                {% for ts in semillas %}
+                                <option value="{{ ts.id }}">{{ ts.tipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tipoInsumo" class="form-label">Tipo Insumo</label>
+                            <select class="form-select" name="tipoInsumo" id="tipoInsumo">
+                                {% for ti in insumos %}
+                                <option value="{{ ti.id }}">{{ ti.tipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div id="formProductoL" class="flex-fill w-100">
+                        <div id="left" class="d-flex flex-column gap-3">
+                            <div class="w-100">
+                                <label for="imageInput" class="form-label">Sube Imagen de tu Producto</label>
+                                <input type="file" name="imagen" id="imageInput" class="form-control w-100" accept="image/*" />
+                            </div>
+                            <div class="w-100 d-flex justify-content-center align-items-center h-auto">
+                                <div id="imageContainer" class="overflow-y-scroll">
+                                    <img height="100" class="img-fluid" width="100" src="{% static 'icon/Brand.svg' %}" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <button type="submit" class="border-0 btn w-100 btn-outline-success">Subir Producto</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
- 
-{% endblock content %}
+  <div class="d-flex justify-content-between container-fluid w-100 flex-column">
+    <div class="border border-dark-subtle w-100"></div>
+    <div id="GestProductos" class="w-100">
+      <div class="my-3 text-center text-capitalize fs-4">
+        <span class="fw-light">Productos Subidos A la Pagina</span>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center w-100 px-5">
+        <form method="GET" class="w-100">
+          <div id="containerFiltros" class="d-flex flex-wrap justify-content-start">
+            <div id="botonesFiltros" class="d-flex flex-lg-row flex-column  justify-content-center w-100 align-items-center flex-fill">
+              <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
+                <label class="form-label" for="id_fecha_subida">Subidos:</label>
+                <select name="fecha_subida" id="id_fecha_subida" class="form-select">
+                  <option value="-">
+                    {% if request.GET.fecha_subida == 'dia' %}
+                   ->Este Día
+                    {% elif request.GET.fecha_subida == 'mes' %}
+                    ->Este Mes
+                    {% elif request.GET.fecha_subida == 'ano' %}
+                    ->Este Año
+                    {% else %}
+                    ---
+                    {% endif %}</option>
+                  <option value="mes">Este Mes</option>
+                  <option value="dia">Este Dia</option>
+                  <option value="ano">Este Año</option>
+                </select>
+              </div>
+              <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center flex-column">
+                <label class="form-label" for="id_tipo">Tipo Producto:</label>
+                <select name="tipo" id="id_tipo" class="form-select">
+                  <option value="" class="fw-bold">
+                    {% if request.GET.tipo == 'semilla' %}
+                    ->Semilla
+                    {% elif request.GET.tipo == 'insumo' %}
+                    ->Insumo
+                    {% else %}
+                    ---
+                    {% endif %}
+                  </option>
+                  <option value="semilla">Semilla</option>
+                  <option value="insumo">Insumo</option>
+                </select>
+              </div>
+              <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
+                <label class="form-label" for="id_ordenar">Ordenar por:</label>
+                <select name="ordenar" id="id_ordenar" value="" class="form-select">
+                  <option value="-">
+                    {% if request.GET.ordenar == 'precio_desc' %}
+                   ->Precio Mayor a Menor
+                    {% elif request.GET.ordenar == 'precio_asc' %}
+                    ->Precio Menor a Mayor
+                    {% elif request.GET.ordenar == 'vendidos_desc' %}
+                    ->Más Vendidos
+                    {% elif request.GET.ordenar == 'vendidos_asc' %}
+                    ->Menos Vendidos
+                    {% else %}
+                    ---
+                    {% endif %}
+                  </option>
+                  <option value="precio_desc">Precio Mayor a Menor</option>
+                  <option value="precio_asc">Precio Menor a Mayor</option>
+                  <option value="vendidos_desc">Más Vendidos</option>
+                  <option value="vendidos_asc">Menos Vendidos</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="w-100">
+            <button type="submit" class="btn btn-success my-2 ms-auto w-md-25 w-100">Aplicar</button>
+          </div>
+        </form>
+        <div class="d-flex flex-row w-100 justify-content-between align-items-center">
+          <div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AgregarProducto">+</button>
+          </div>
+         <div>
+          <div>
+            <form method="GET" action="{% url 'adminConfig' %}">
+              <select class="form-select" name="filtro" id="productos-inventario">
+                <option value="">->¿Qué quieres Ver?</option>
+                <option value="inventario">Inventario</option>
+                <option value="ventas">Ventas</option>
+                <option value="todos">Todos los productos</option>
+              </select>
+              <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+          </div>
+          <div class="d-flex gap-1">
+            <span>Has Vendido</span><span class="fw-bold">50</span><span>Productos</span>
+          </div>
+          <div class="d-flex gap-1">
+            <span>Total Vendido:</span><span class="fw-bold">$250.000</span>
+          </div>
+         </div>
+         </div>
+        </div>
+      </div>
+      <div id="cards" class="d-flex justify-content-md-center justify-items-center flex-wrap gap-1 w-100">
+        {% for p in productos %}
+          <div id="title_card1" class="card rounded-1 border-0 shadow">
+            <div class="card-body border-black py-2 w-100 border-bottom-0">
+              <div class="d-flex justify-content-between flex-column w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>{{p.nombre}}</span>
+                  <a href="{% url 'detalle' p.id %}" class="w-25" id="imgProducto">
+                    <img src="{% static 'imgs/' %}{{ p.imagenUrl }}" alt="" />
+                  </a>
+                </div>
+                <div>
+                  <div class="text-black fw-light" id="idCard">
+                    <div>
+                      ID: <span class="fw-bolder">{{p.id}}</span>
+                    </div>
+                    <div class="text-capitalize">
+                      Tipo.: <span class="fw-bolder">{{p.tipo}}</span>
+                    </div>
+                    <div>
+                      Stock..: <span class="fw-bolder">{{p.stock}}</span>
+                    </div>
+                    <div>
+                      Unid. Vendidas..: <span class="fw-bolder">{{p.cantidadVentas}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer px-0 border-top-0 bg-body w-100">
+              <div class="d-flex w-100 justify-content-between px-3">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.:{{p.proveedor}}</div>
+              </div>
+              <div class="px-3 w-100" id="cardDesc">{{p.descripcion}}</div>
+              <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
+                <span class="text-black fs-6 fw-semibold">${{p.precio|intcomma}}</span>
+              </div>
+            </div>
+            <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
+              <a href="{% url 'eliminarProducto' p.id %}" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334" style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
+                  <g>
+                    <path d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a type="button" 
+              data-bs-toggle="modal" 
+              data-bs-target="#modificarProducto" 
+              class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" 
+              id="AddToCarro" 
+              data-id="{{ p.id }}"
+              data-nombre="{{ p.nombre }}"
+              data-tipo="{{ p.tipo }}"
+              data-stock="{{ p.stock }}"
+              data-cantidad-ventas="{{ p.cantidadVentas }}"
+              data-proveedor="{{ p.proveedor }}"
+              data-descripcion="{{ p.descripcion }}"
+              data-precio="{{ p.precio|intcomma }}">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
+                  <g>
+                    <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
+                    <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path>
+                  </g>
+                </svg>
+              </a>
+            </div>
+          </div>
+     
+        {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'js/ImagenProducto.js' %}"></script>
+{% endblock %}

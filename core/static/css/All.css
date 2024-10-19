@@ -29,8 +29,37 @@ main{
 
 @media (min-width: 1024px) {}
 
-.card {
+
+#card:hover #imgProducto {
+    transform: scale(1.1);
+    /* Increase size by 10% */
+    transition: transform 0.3s ease;
+    /* Smooth transition */
+}
+
+
+#imgProducto img {
+    border-radius: 50%;
+    width: 100%;
+    height: auto;
+    filter: brightness(1);
+    mix-blend-mode: multiply;
+}
+
+.card #title_card1{
+    max-width: 483.42px;
     min-width: 254.543px;
+    flex-grow: 1;
+}
+
+.card {
+    max-width: 483.42px;
+    min-width: 254.543px;
+    min-height: 65vh;
+    min-width: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 47px 0px 14px 16px;
     -moz-border-radius: 47px 0px 14px 16px;
     -webkit-border-radius: 47px 0px 14px 16px;
@@ -52,4 +81,15 @@ main{
     text-wrap: balance;
     height: 78px;
     overflow-y: scroll;
+}
+
+#mensaje {
+    display: flex !important;
+    animation: mensajeAparecer 0.5s;
+    animation-fill-mode: forwards;
+    position: fixed !important;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
 }
