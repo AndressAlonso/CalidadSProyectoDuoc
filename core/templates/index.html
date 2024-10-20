@@ -35,6 +35,16 @@
                 <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
                   <label class="form-label" for="id_fecha_subida">Subidos:</label>
                   <select name="fecha_subida" id="id_fecha_subida" class="form-select">
+                    <option value="-">
+                      {% if request.GET.fecha_subida == 'dia' %}
+                     ->Este Día
+                      {% elif request.GET.fecha_subida == 'mes' %}
+                      ->Este Mes
+                      {% elif request.GET.fecha_subida == 'ano' %}
+                      ->Este Año
+                      {% else %}
+                      ---
+                      {% endif %}</option>
                     <option value="mes">Este Mes</option>
                     <option value="dia">Este Dia</option>
                     <option value="ano">Este Año</option>
@@ -43,6 +53,15 @@
                 <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center flex-column">
                   <label class="form-label" for="id_tipo">Tipo:</label>
                   <select name="tipo" id="id_tipo" class="form-select">
+                    <option value="" class="fw-bold">
+                      {% if request.GET.tipo == 'semilla' %}
+                      ->Semilla
+                      {% elif request.GET.tipo == 'insumo' %}
+                      ->Insumo
+                      {% else %}
+                      ---
+                      {% endif %}
+                    </option>
                     <option value="semilla">Semilla</option>
                     <option value="insumo">Insumo</option>
                   </select>
@@ -50,8 +69,23 @@
                 <div id="filtro" class="d-flex justify-content-start flex-fill align-items-center  flex-column">
                   <label class="form-label" for="id_ordenar">Ordenar por:</label>
                   <select name="ordenar" id="id_ordenar" value="" class="form-select">
+                    "form-select">
+                    <option value="-">
+                      {% if request.GET.ordenar == 'precio_desc' %}
+                     ->Precio Mayor a Menor
+                      {% elif request.GET.ordenar == 'precio_asc' %}
+                      ->Precio Menor a Mayor
+                      {% elif request.GET.ordenar == 'vendidos_desc' %}
+                      ->Más Vendidos
+                      {% elif request.GET.ordenar == 'vendidos_asc' %}
+                      ->Menos Vendidos
+                      {% else %}
+                      ---
+                      {% endif %}
+                    </option>
                     <option value="precio_desc">Precio Mayor a Menor</option>
                     <option value="precio_asc">Precio Menor a Mayor</option>
+                    <option value="" disabled class=""></option>
                     <option value="vendidos_desc">Más Vendidos</option>
                     <option value="vendidos_asc">Menos Vendidos</option>
                   </select>
@@ -74,7 +108,7 @@
               <div class="d-flex justify-content-between w-100 flex-column">
                 <div class="d-flex justify-content-between w-100 align-items-start">
                   <span class="w-50">{{ p.nombre }}</span>
-                  <a href="" id="imgProducto" class="w-25 float-end">
+                  <a href="{% url 'detalle' p.id %}" id="imgProducto" class="w-25 float-end">
                     <img src="{% static 'imgs/' %}{{ p.imagenUrl }}" style="height: 20vh !important; " class="w-100" alt="" />
                   </a>
                 </div>
@@ -102,7 +136,7 @@
             </div>
             <div class="card-footer px-0 border-top-0 bg-body d-flex justify-content-start flex-column w-100 align-items-start">
               <div class="d-flex w-100 justify-content-between px-3 ">
-                <div class="text-black fw-semibold" id="cardMarca">Prov.: {{ p.proveedor.usuario.first_name }} {{ p.proveedor.usuario.last_name }}</div>
+                <div class="text-black fw-semibold" id="cardMarca">Prov.: {{p.proveedor.usuario}}</div>
               </div>
               <div class="px-3" id="cardDesc">{{ p.descripcion }}</div>
               <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">

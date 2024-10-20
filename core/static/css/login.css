@@ -1,0 +1,102 @@
+
+#form_login {
+    text-align: center;
+    font-size: 20px;
+    border: 5px solid black;
+    padding: 20px 1rem;
+    min-height: 2em;
+    width: 60%;
+    resize: both;
+    background: linear-gradient(to top, rgba(#0d1b1b, 0.3), rgba(#130a0a, 0.3), rgba(#fce2ce, 0.3), rgba(#ffc1f3, 0.3));
+    border-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23cffffe' /%3E%3Cstop offset='25%25' stop-color='%23f9f7d9' /%3E%3Cstop offset='50%25' stop-color='%23fce2ce' /%3E%3Cstop offset='100%25' stop-color='%0d1b1b' /%3E%3C/linearGradient%3E %3Cpath d='M1.5 1.5 l97 0l0 97l-97 0 l0 -97' stroke-linecap='square' stroke='url(%23g)' stroke-width='3'/%3E %3C/svg%3E") 1;
+}
+
+#form_login div {
+    flex-grow: 1;
+    width: 100%;
+    font-weight: light;
+}
+
+label {
+    width: 100%;
+    text-align: start;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 1px;
+}
+input {
+    font-size: 18px;
+	padding: 5px 10px;
+	width: 100%;
+	padding-left: 35px;
+	outline: none !important;
+	background: #FFFFFF;
+	color: #000000;
+	border: 1px solid #C4D1EB !important;
+	border-radius: 5px !important;
+	box-shadow: 3px 3px 2px 0px #E2E2E2 !important;
+	transition: .3s ease;
+}
+input:focus{
+    transform: scale(1.01);
+    transition: 0.5s box-shadow;
+}
+select{
+    font-size: 18px;
+	padding: 5px 10px;
+	width: 100%;
+	padding-left: 35px;
+	outline: none !important;
+	background: #FFFFFF;
+	color: #000000;
+	border: 1px solid #C4D1EB !important;
+	border-radius: 5px !important;
+	box-shadow: 3px 3px 2px 0px #E2E2E2 !important;
+	transition: .3s ease;
+}
+select:focus{
+    transform: scale(1.01);
+    transition: 0.5s box-shadow;
+}
+
+.errorlist{
+    list-style-type: "";
+    width: 100%;
+    text-transform: capitalize;
+    padding: 0px;
+    font-style: italic;
+    font-size: medium;
+    width: 100%;
+    color: red;
+    text-align: start;
+    font-weight: 500;
+}
+
+.helptext{
+    list-style-type: none;
+    width: 100%;
+    text-transform: capitalize;
+    padding: 0px;
+    font-weight: light;
+    font-style: italic;
+    font-size: 15px;
+    width: 100%;
+    text-align: start;
+    padding-bottom: 5px !important;
+}
+
+
+.helptext ul {
+    list-style-type: "> ";
+}
+#container_form{
+    min-height:100vh;
+}
+@media (min-width: 768px) {
+    #container_form{
+        width: 50%;
+    }
+    #linksCuenta{
+        flex-wrap: nowrap !important;
+    }
+    }

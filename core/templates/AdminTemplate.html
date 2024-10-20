@@ -200,8 +200,8 @@
   <div class="d-flex justify-content-between container-fluid w-100 flex-column">
     <div class="border border-dark-subtle w-100"></div>
     <div id="GestProductos" class="w-100">
-      <div class="my-3 text-center text-capitalize fs-4">
-        <span class="fw-light">Productos Subidos A la Pagina</span>
+      <div class="my-3 text-center text-capitalize fs-5">
+        <span class="fw-light">Panel de Administrador</span>
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center w-100 px-5">
         <form method="GET" class="w-100">
@@ -265,8 +265,8 @@
               </div>
             </div>
           </div>
-          <div class="w-100">
-            <button type="submit" class="btn btn-success my-2 ms-auto w-md-25 w-100">Aplicar</button>
+          <div class="w-100 d-flex justify-content-center align-items-center">
+            <button type="submit" class="btn btn-success my-2 w-25">Aplicar</button>
           </div>
         </form>
         <div class="d-flex flex-row w-100 justify-content-between align-items-center">
@@ -282,14 +282,14 @@
                 <option value="ventas">Ventas</option>
                 <option value="todos">Todos los productos</option>
               </select>
-              <button type="submit" class="btn btn-primary">Filtrar</button>
+              <button  type="submit" class=" w-100 btn btn-outline-success border-0">Filtrar</button>
             </form>
           </div>
           <div class="d-flex gap-1">
-            <span>Has Vendido</span><span class="fw-bold">50</span><span>Productos</span>
+            <span>Se han Vendido</span><span class="fw-bold">{{cantidadVentas}}</span><span>Productos</span>
           </div>
           <div class="d-flex gap-1">
-            <span>Total Vendido:</span><span class="fw-bold">$250.000</span>
+            <span>Total Vendido:</span><span class="fw-bold">${{ventas|intcomma}}</span>
           </div>
          </div>
          </div>

@@ -10,7 +10,7 @@
   <div id="container_form" class="py-3 d-flex justify-content-center align-items-center">
     <form method="post" id="form_login"
       class="w-100 d-flex flex-column justify-content-center align-items-center container gap-2">
-      <div><img src="{% static 'icons/1.png' %}" alt=""> <h4 class="fw-bold">Registrate en TechTreasure</h4></div>
+      <div><img src="{% static 'icon/brand1.svg' %}" width="60" height="60" alt=""> <h4 class="fw-bold my-3">Registrate en SemillasOrganica.cl</h4></div>
       {% csrf_token %}
       {{ form }}
       <button type="submit" class="btn btn-dark mt-1 bg-black">Registrarse</button>
@@ -21,11 +21,16 @@
   document.addEventListener('DOMContentLoaded', function () {
     var allLabels = document.querySelectorAll("label");
     var allInputs = document.querySelectorAll("input");
+    var selects = document.querySelectorAll("select");
+    var idtipo = document.getElementById("id_tipo_usuario")
+    selects.forEach(function (ss) {
+      ss.classList.add('form-select');
+    });
     allLabels.forEach(function (label) {
       label.classList.add('form-label');
     });
     allInputs.forEach(function (input) {
-      input.classList.add('form-control', 'border-dark');
+      input.classList.add('form-control');
     });
     labelUser.classList.add('form-label');
     labelPassword.classList.add('form-label');

@@ -10,7 +10,7 @@
     <script src="{% static 'js/mensaje.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/All.css' %}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="Web Icon" href="{% static 'icon/brand1.svg' %}">
+    <link rel="Web Icon" href="{% static 'icon/brand1.svg' %}" />
     <script src="{% static 'js/mensaje.js' %}"></script>
     {% block links %}
 
@@ -18,25 +18,39 @@
   </head>
   <body class="" data-bs-theme="light">
     {% if messages %}
-    <ul id="django-messages" style="display: none;">
-      {% for message in messages %}
-        <li data-message="{{ message }}" data-tags="{{ message.tags }}"></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+      <ul id="django-messages" style="display: none;">
+        {% for message in messages %}
+          <li data-message="{{ message }}" data-tags="{{ message.tags }}"></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <span class="text-center w-100 fs-5 fw-bold">Bienvenido a SemillasOrganicas.org</span>
+            <span class="text-center w-100 fs-5 fw-bold">Bienvenido a SemillasOrganicas.cl</span>
           </div>
           <div class="modal-body">
             <div id="datosCuenta" class="w-100 flex-wrap d-flex justify-content-around align-items-center flex-row py-3">
               {% if user.is_authenticated %}
-                <div class="flex-fill d-flex justify-content-center align-items-center flex-column">
-                  <span>Usuario: {{ usuario.tipoUsuario.Tipo }}</span>
-                  <span>Email: {{ usuario.usuario.email|default:'No Registrado' }}</span>
-                  <span>Ventas: {{ usuario.ventas|default:'No Registrado' }}</span>
+                <div class="flex-fill d-flex justify-content-center align-items-center flex-column px-3">
+                  <div class="d-flex flex-column w-100">
+                    <span class="text-start fw-bold">Usuario:</span>
+                    <span>{{ request.user.username }}</span>
+                  </div>
+                  <div class="d-flex flex-column w-100">
+                    <span class="text-start fw-bold">Nombre:</span>
+                    <span>{{ request.user.first_name|default:"NombreUsuario" }} {{ request.user.last_name|default:"ApellidoUsuario" }}</span>
+                  </div>
+
+                  <div class="d-flex flex-column w-100">
+                    <span class="text-start fw-bold">Email:</span>
+                    <span>{{ request.user.email }}</span>
+                  </div>
+                  <div class="d-flex flex-column w-100">
+                    <span class="text-start fw-bold">Rol Usuario:</span>
+                    <span>{{ request.user.perfil.tipo_usuario.tipo }}</span>
+                  </div>
                 </div>
               {% else %}
                 <div class="flex-fill d-flex justify-content-center align-items-center flex-column">
@@ -46,16 +60,29 @@
                 </div>
               {% endif %}
               <div class="flex-fill d-flex justify-content-center flex-column gap-3 align-items-center">
-                <a href="{% url 'GestProducto' %}" class="btn btn-success w-100">Carrito</a>
-                <a href="{% url 'GestProducto' %}" class="btn btn-success w-100">Gestionar Tus productos</a>
-                <a href="{% url 'adminConfig' %}" class="btn btn-success w-100">Administrador</a>
+                {% if request.user.perfil.tipo_usuario.tipo == 'Proovedor' %}
+                  <a href="{% url 'carrito' %}" class="btn btn-success w-100">Carrito</a>
+                  <a href="{% url 'GestProducto' %}" class="btn btn-success w-100">Gestionar Tus productos</a>
+                {% elif request.user.perfil.tipo_usuario.tipo == 'Usuario Normal' %}
+                  <a href="{% url 'carrito' %}" class="btn btn-success w-100">Carrito</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                  <a href="{% url 'adminConfig' %}" class="btn btn-success w-100">Administrador</a>
+                {% endif %}
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <div id="btnsCuenta" class="d-flex w-100 gap-2 justify-content-around align-items-center">
-              <a href="" class="btn btn-success w-50">¿Eres Nuevo? Registrate!.</a>
-              <a href="" class="btn btn-light w-50">¿Ya tienes Cuenta? Inicia Sesion.</a>
+              {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+                </form>
+              {% else %}
+                <a href="{% url 'registro' %}" class="btn btn-success w-50">¿Eres Nuevo? Registrate!.</a>
+                <a href="{% url 'login' %}" class="btn btn-light w-50">¿Ya tienes Cuenta? Inicia Sesion.</a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -65,11 +92,11 @@
       <div class="container-fluid">
         <a class="navbar-brand me-auto gap-3 d-flex justify-content-center align-items-center fs-6 text-center" id="urlhoe" href="{% url 'home' %}">
           <img alt="" src="{% static 'icon/brand.svg' %}" width="40" />
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
             <span>SemillasOrganicas</span>
           </div>
         </a>
-        
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav d-flex flex-row gap-3 ms-auto">

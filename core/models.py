@@ -2,17 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-class tipoUsuario(models.Model):
-    idtipoUsusario = models.AutoField(primary_key=True)
-    Tipo = models.CharField(null=True, max_length=50)
+
+class TipoUsuario(models.Model):
+    idtipoUsuario = models.AutoField(primary_key=True)
+    tipo = models.CharField(null=True, max_length=50)
     def __str__(self):
-        return self.Tipo
+        return self.tipo
 
 class Usuario(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    tipoUsuario = models.ForeignKey(to=tipoUsuario, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
+    tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE, related_name='usuarios', default=1)
+
     def __str__(self):
         return self.usuario.username
+
 
 class TipoProducto(models.Model):
     idTipoProducto = models.AutoField(primary_key=True)
@@ -67,19 +70,18 @@ class Producto(models.Model):
         return f"{self.nombre} ({self.get_tipo_display()})"
 
 
-class venta(models.Model):
+class Venta(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField(default=datetime.now)
     cliente = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)
     total = models.IntegerField()
-
     def __str__(self):
         return self.cliente.username
 
 
 class DetalleVenta(models.Model):
     id = models.AutoField(primary_key=True)
-    venta = models.ForeignKey(to=venta, on_delete=models.CASCADE)
+    venta = models.ForeignKey(to=Venta, on_delete=models.CASCADE)
     producto = models.ForeignKey(to=Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     precio = models.IntegerField()

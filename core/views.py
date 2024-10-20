@@ -4,9 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.timezone import now
 from django.db.models import Count
-from datetime import timedelta
+from datetime import timedelta, timezone
 from .models import Producto
-from .forms import ProductoFilterForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,54 +13,92 @@ from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Count
 from datetime import timedelta
-from django.utils.timezone import now
+from django.utils import timezone
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from .forms import SignUpForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from .forms import SignUpForm
+
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()  
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registro.html', {'form': form})
+
+
+
+def custom_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'login.html')
+
 
 def home(request):
-    messages.success(request, "Bienvenido a la página de inicio.")
     querySet = request.GET.get("buscar") 
     productos = Producto.objects.all()
-    for producto in productos:
-        if producto.proveedor == 'SemillasOrganicas.cl':
-            producto.inventario = True
-            producto.save()
     if querySet:
         productos = productos.filter(
             Q(nombre__icontains=querySet) | 
             Q(descripcion__icontains=querySet)
         ).distinct()
 
-    form = ProductoFilterForm(request.GET)
-    if form.is_valid():
-        fecha_subida = form.cleaned_data.get('fecha_subida')
-        if fecha_subida and fecha_subida != '-1':
-            if fecha_subida == 'mes':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=30))
-            elif fecha_subida == 'dia':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=1))
-            elif fecha_subida == 'ano':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=365))
+    fecha_subida = request.GET.get('fecha_subida', '-')
+    tipo_producto = request.GET.get('tipo', '-')
+    ordenar = request.GET.get('ordenar', '-')
 
-        tipo = form.cleaned_data.get('tipo')
-        if tipo and tipo != '-1':
-            productos = productos.filter(tipo=tipo)
-            
-        ordenar = form.cleaned_data.get('ordenar')
-        if ordenar and ordenar == '-1':
-            if ordenar == 'precio_desc':
-                productos = productos.order_by('-precio')
-            elif ordenar == 'precio_asc':
-                productos = productos.order_by('precio')
-            elif ordenar == 'vendidos_desc':
-                productos = productos.annotate(vendidos=Count('id')).order_by('-vendidos')
-            elif ordenar == 'vendidos_asc':
-                productos = productos.annotate(vendidos=Count('id')).order_by('vendidos')
-    print(request.GET.get("ordenar"))
-    return render(request, "index.html", {'productos': productos, 'usuario': 'admin', 'form': form})
+    if fecha_subida == 'dia':
+        productos = productos.filter(fechasubida=timezone.now().date())
+    elif fecha_subida == 'mes':
+        productos = productos.filter(fechasubida__month=timezone.now().month)
+    elif fecha_subida == 'ano':
+        productos = productos.filter(fechasubida__year=timezone.now().year)
+
+    if tipo_producto == 'semilla':
+        productos = productos.filter(tipo='semilla')
+    elif tipo_producto == 'insumo':
+        productos = productos.filter(tipo='insumo')
+
+    if ordenar == 'precio_desc':
+        productos = productos.order_by('-precio')
+    elif ordenar == 'precio_asc':
+        productos = productos.order_by('precio')
+    elif ordenar == 'vendidos_desc':
+        productos = productos.order_by('-cantidadVentas')
+    elif ordenar == 'vendidos_asc':
+        productos = productos.order_by('cantidadVentas')
+    return render(request, "index.html", {'productos': productos})
 
 
 
 def GestProducto(request):
-    productos = Producto.objects.filter(proveedor=request.user.usuario)
+    usuario = Usuario.objects.get(usuario=request.user)
+
+    productos = Producto.objects.filter(proveedor=usuario)
+    ventas = 0
+    for p in productos:
+        ventas += p.cantidadVentas * p.precio
+    cantidadVentas = 0
+    for p in productos:
+        cantidadVentas += p.cantidadVentas
     tiposSemillas = TipoSemilla.objects.all()
     tiposInsumo = TipoInsumo.objects.all()
     tiposOrigen = tipoOrigen.objects.all() 
@@ -120,7 +157,7 @@ def GestProducto(request):
                 tipo=tipoProducto,
                 origen=origen,
                 imagenUrl=imagenUrl,
-                proveedor=request.user.usuario,
+                proveedor=usuario,
                 tipoSemilla=tipoSemilla,
                 tipoInsumo=tipoInsumo,
                 descripcion=descripcion
@@ -129,43 +166,39 @@ def GestProducto(request):
             messages.success(request, "Producto agregado exitosamente.")
 
         return redirect('GestProducto')
+    fecha_subida = request.GET.get('fecha_subida', '-')
+    tipo_producto = request.GET.get('tipo', '-')
+    ordenar = request.GET.get('ordenar', '-')
 
-    form = ProductoFilterForm(request.GET)
-    if form.is_valid():
-        fecha_subida = form.cleaned_data.get('fecha_subida')
-        print(f"Filtering by fecha_subida: {fecha_subida}")  # Debug
-        if fecha_subida and fecha_subida != '-1':
-            if fecha_subida == 'mes':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=30))
-            elif fecha_subida == 'dia':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=1))
-            elif fecha_subida == 'ano':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=365))
-        print(productos)  # Debug
+    if fecha_subida == 'dia':
+        productos = productos.filter(fechasubida=timezone.now().date())  # Comparación directa
+    elif fecha_subida == 'mes':
+        productos = productos.filter(fechasubida__month=timezone.now().month)
+    elif fecha_subida == 'ano':
+        productos = productos.filter(fechasubida__year=timezone.now().year)
 
-        tipo = form.cleaned_data.get('tipo')
-        print(f"Filtering by tipo: {tipo}")  # Debug
-        if tipo and tipo != '-1':
-            productos = productos.filter(tipo=tipo)
-        print(productos)  # Debug
+    if tipo_producto == 'semilla':
+        productos = productos.filter(tipo='semilla')
+    elif tipo_producto == 'insumo':
+        productos = productos.filter(tipo='insumo')
 
-        ordenar = form.cleaned_data.get('ordenar')
-        print(f"Ordering by: {ordenar}")  # Debug
-        if ordenar == 'precio_desc':
-            productos = productos.order_by('-precio')
-        elif ordenar == 'precio_asc':
-            productos = productos.order_by('precio')
-        elif ordenar == 'vendidos_desc':
-            productos = productos.annotate(vendidos=Count('id')).order_by('-vendidos')
-        elif ordenar == 'vendidos_asc':
-            productos = productos.annotate(vendidos=Count('id')).order_by('vendidos')
-        print(productos) 
+    if ordenar == 'precio_desc':
+        productos = productos.order_by('-precio')
+    elif ordenar == 'precio_asc':
+        productos = productos.order_by('precio')
+    elif ordenar == 'vendidos_desc':
+        productos = productos.order_by('-vendidos')
+    elif ordenar == 'vendidos_asc':
+        productos = productos.order_by('vendidos')
+    tiposSemillas = TipoSemilla.objects.all()
+    tiposInsumo = TipoInsumo.objects.all()
+    tiposOrigen = tipoOrigen.objects.all()
 
     return render(request, "gestionProductos.html", {
         'productos': productos,
         'semillas': tiposSemillas,
         'insumos': tiposInsumo,
-        'origenes': tiposOrigen
+        'origenes': tiposOrigen,"ventas":ventas,"cantidadVentas":cantidadVentas
     })
 
 def detalle(request,id):
@@ -180,14 +213,19 @@ def adminConfig(request):
     tiposSemillas = TipoSemilla.objects.all()
     tiposInsumo = TipoInsumo.objects.all()
     tiposOrigen = tipoOrigen.objects.all() 
-    filtro = request.GET.get('filtro')  # Capturamos la opción seleccionada
-    productos = Producto.objects.all()  # Obtenemos todos los productos por defecto
-
-    # Aplicamos los filtros según la selección del usuario
+    filtro = request.GET.get('filtro')  
+    productos = Producto.objects.all()  
+    ventas = 0
+    for p in productos:
+        ventas += p.cantidadVentas * p.precio
+    vendidos = Venta.objects.all()
+    cantidadVentas = 0
+    for p in vendidos:    
+        cantidadVentas += 1
     if filtro == 'inventario':
-        productos = productos.filter(inventario=True)  # Filtra productos con inventario=True
+        productos = productos.filter(inventario=True) 
     elif filtro == 'ventas':
-        productos = productos.filter(cantidadVentas__gt=1)  # Filtra productos con cantidad_ventas > 1
+        productos = productos.filter(cantidadVentas__gt=1) 
     elif filtro == 'todos':
         productos = productos 
     
@@ -255,39 +293,101 @@ def adminConfig(request):
             messages.success(request, "Producto agregado exitosamente.")
         return redirect('adminConfig')
 
-    # Apply filters if GET request
-    form = ProductoFilterForm(request.GET)
-    if form.is_valid():
-        fecha_subida = form.cleaned_data.get('fecha_subida')
-        if fecha_subida and fecha_subida != '-1':
-            if fecha_subida == 'mes':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=30))
-            elif fecha_subida == 'dia':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=1))
-            elif fecha_subida == 'ano':
-                productos = productos.filter(fechasubida__gte=now() - timedelta(days=365))
+    fecha_subida = request.GET.get('fecha_subida', '-')
+    tipo_producto = request.GET.get('tipo', '-')
+    ordenar = request.GET.get('ordenar', '-')
 
-        tipo = form.cleaned_data.get('tipo')
-        if tipo and tipo != '-1':
-            productos = productos.filter(tipo=tipo)
+    if fecha_subida == 'dia':
+        productos = productos.filter(fechasubida=timezone.now().date())
+    elif fecha_subida == 'mes':
+        productos = productos.filter(fechasubida__month=timezone.now().month)
+    elif fecha_subida == 'ano':
+        productos = productos.filter(fechasubida__year=timezone.now().year)
 
-        ordenar = form.cleaned_data.get('ordenar')
-        if ordenar == 'precio_desc':
-            productos = productos.order_by('-precio')
-        elif ordenar == 'precio_asc':
-            productos = productos.order_by('precio')
-        elif ordenar == 'vendidos_desc':
-            productos = productos.annotate(vendidos=Count('id')).order_by('-vendidos')
-        elif ordenar == 'vendidos_asc':
-            productos = productos.annotate(vendidos=Count('id')).order_by('vendidos')
+    if tipo_producto == 'semilla':
+        productos = productos.filter(tipo='semilla')
+    elif tipo_producto == 'insumo':
+        productos = productos.filter(tipo='insumo')
+
+    if ordenar == 'precio_desc':
+        productos = productos.order_by('-precio')
+    elif ordenar == 'precio_asc':
+        productos = productos.order_by('precio')
+    elif ordenar == 'vendidos_desc':
+        productos = productos.order_by('-cantidadVentas')
+    elif ordenar == 'vendidos_asc':
+        productos = productos.order_by('cantidadVentas')
+    tiposSemillas = TipoSemilla.objects.all()
+    tiposInsumo = TipoInsumo.objects.all()
+    tiposOrigen = tipoOrigen.objects.all()
 
     
     return render(request, "AdminTemplate.html", {
         'productos': productos,
         'semillas': tiposSemillas,
         'insumos': tiposInsumo,
-        'origenes': tiposOrigen
+        'origenes': tiposOrigen,
+        'ventas': ventas,
+        'cantidadVentas': cantidadVentas
     })
+
+
+def comprar(request):
+    if request.user.is_authenticated:
+        carrito = request.session.get("carrito", [])
+        total = 0
+        for item in carrito:
+            total += item["subtotal"]
+
+        venta = Venta()
+        usuario = Usuario.objects.get(usuario=request.user) 
+        venta.cliente = usuario  
+        venta.total = total
+        venta.save()
+        
+        for item in carrito:
+            detalle = DetalleVenta()
+            detalle.producto = Producto.objects.get(id=item["id"])
+            productos = Producto.objects.get(id=item["id"])
+            productos.stock -= item["cantidad"]
+            productos.save()
+            detalle.precio = item["precio"]
+            detalle.cantidad = item["cantidad"]
+            detalle.producto.cantidadVentas += item["cantidad"]
+            detalle.venta = venta
+            detalle.save()
+
+        del request.session["carrito"]
+        messages.success(request, 'Compra realizada correctamente')
+        return redirect('carrito')
+    else:
+        messages.success(request, 'Debe iniciar sesión para comprar productos')
+        return redirect("login")
+    
+
+def comprarUnProducto(request, id):
+    if (request.user.is_authenticated):
+        producto = Producto.objects.get(id=id)
+        venta = Venta()
+        usuario = Usuario.objects.get(usuario=request.user) 
+        venta.cliente = usuario 
+        venta.total = producto.precio
+        venta.save()
+        detalle = DetalleVenta()
+        detalle.producto = producto
+        detalle.producto.cantidadVentas += 1
+        detalle.precio = producto.precio
+        detalle.cantidad = 1
+        detalle.venta = venta
+        detalle.save()
+        producto.stock -= 1
+        producto.save()
+        messages.success(request, 'Compra realizada correctamente')
+        return redirect('home')
+    else:
+        messages.success(request, 'Debe iniciar sesión para comprar productos')
+        return redirect("login")
+
 
 
 def addToCar(request, id):
