@@ -27,7 +27,7 @@ main{
     min-height:250px;
 }
 
-@media (min-width: 1024px) {}
+
 
 
 #card:hover #imgProducto {
@@ -83,13 +83,3 @@ main{
     overflow-y: scroll;
 }
 
-#mensaje {
-    display: flex !important;
-    animation: mensajeAparecer 0.5s;
-    animation-fill-mode: forwards;
-    position: fixed !important;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    justify-content: center;
-}

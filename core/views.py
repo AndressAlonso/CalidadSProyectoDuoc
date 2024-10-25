@@ -91,17 +91,17 @@ def home(request):
 
 def GestProducto(request):
     usuario = Usuario.objects.get(usuario=request.user)
-
+    ventasUsuario = DetalleVenta.objects.filter(venta__proveedor=usuario)
+    print(ventasUsuario)
     productos = Producto.objects.filter(proveedor=usuario)
     ventas = 0
-    for p in productos:
-        ventas += p.cantidadVentas * p.precio
-    cantidadVentas = 0
-    for p in productos:
-        cantidadVentas += p.cantidadVentas
+    cantidadVentas = ventasUsuario.count()
+    for p in ventasUsuario:
+        ventas += p.cantidad * p.precio
+        
     tiposSemillas = TipoSemilla.objects.all()
     tiposInsumo = TipoInsumo.objects.all()
-    tiposOrigen = tipoOrigen.objects.all() 
+    tiposOrigen = tipoOrigen.objects.all()
     if request.method == 'POST':
         producto_id = request.POST.get('producto_id')
         nombre = request.POST.get('nombreProducto')
@@ -198,7 +198,8 @@ def GestProducto(request):
         'productos': productos,
         'semillas': tiposSemillas,
         'insumos': tiposInsumo,
-        'origenes': tiposOrigen,"ventas":ventas,"cantidadVentas":cantidadVentas
+        'origenes': tiposOrigen,"ventas":ventas,"cantidadVentas":cantidadVentas,
+        'ventasUsuario': ventasUsuario
     })
 
 def detalle(request,id):
@@ -215,13 +216,13 @@ def adminConfig(request):
     tiposOrigen = tipoOrigen.objects.all() 
     filtro = request.GET.get('filtro')  
     productos = Producto.objects.all()  
+    ventasPagina = DetalleVenta.objects.all()
     ventas = 0
-    for p in productos:
-        ventas += p.cantidadVentas * p.precio
+    for p in ventasPagina:
+        ventas += p.cantidad * p.precio
     vendidos = Venta.objects.all()
-    cantidadVentas = 0
-    for p in vendidos:    
-        cantidadVentas += 1
+    cantidadVentas = ventasPagina.count()
+   
     if filtro == 'inventario':
         productos = productos.filter(inventario=True) 
     elif filtro == 'ventas':
@@ -349,12 +350,21 @@ def comprar(request):
             detalle = DetalleVenta()
             detalle.producto = Producto.objects.get(id=item["id"])
             productos = Producto.objects.get(id=item["id"])
+            if productos.stock <= 0:
+                messages.error(request, 'No hay suficiente stock para realizar la compra')
+                return redirect('carrito')
+            if item["cantidad"] > productos.stock:
+                messages.error(request, 'No hay suficiente stock para realizar la compra')
+                return redirect('carrito')
             productos.stock -= item["cantidad"]
             productos.save()
             detalle.precio = item["precio"]
+          
             detalle.cantidad = item["cantidad"]
-            detalle.producto.cantidadVentas += item["cantidad"]
+            ventasProductos = DetalleVenta.objects.filter(producto__id=productos.id)
+            detalle.producto.cantidadVentas = ventasProductos.count()
             detalle.venta = venta
+            productos.save()
             detalle.save()
 
         del request.session["carrito"]
@@ -370,7 +380,7 @@ def comprarUnProducto(request, id):
         producto = Producto.objects.get(id=id)
         venta = Venta()
         usuario = Usuario.objects.get(usuario=request.user) 
-        venta.cliente = usuario 
+        venta.cliente = usuario
         venta.total = producto.precio
         venta.save()
         detalle = DetalleVenta()
@@ -380,7 +390,11 @@ def comprarUnProducto(request, id):
         detalle.cantidad = 1
         detalle.venta = venta
         detalle.save()
+        if producto.stock <= 1:
+            messages.error(request, 'No hay suficiente stock para realizar la compra')
+            return redirect('home')
         producto.stock -= 1
+
         producto.save()
         messages.success(request, 'Compra realizada correctamente')
         return redirect('home')

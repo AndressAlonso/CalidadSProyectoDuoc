@@ -74,9 +74,10 @@ class Venta(models.Model):
     id = models.AutoField(primary_key=True)
     fecha = models.DateTimeField(default=datetime.now)
     cliente = models.ForeignKey(to=Usuario, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey(to=Usuario, on_delete=models.CASCADE, related_name='proveedor', default=1)
     total = models.IntegerField()
     def __str__(self):
-        return self.cliente.username
+        return self.cliente.usuario.username
 
 
 class DetalleVenta(models.Model):
@@ -88,3 +89,5 @@ class DetalleVenta(models.Model):
 
     def __str__(self):
         return self.producto.nombre
+    
+

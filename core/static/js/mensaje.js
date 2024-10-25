@@ -1,16 +1,30 @@
 function MostrarMensaje(mensaje) {
     var ElementoMensaje = document.createElement('div');
     ElementoMensaje.id = 'mensaje';
-    ElementoMensaje.className = 'rounded-2 text-white bg-body position-fixed top-0 end-0 m-3';
+    ElementoMensaje.className = 'toast text-wrap align-items-center text-bg-success border-0 position-fixed top-0 end-0 mt-3 m-md-3';
+    ElementoMensaje.setAttribute('role', 'alert');
+    ElementoMensaje.setAttribute('aria-live', 'assertive');
+    ElementoMensaje.setAttribute('aria-atomic', 'true');
+    
     ElementoMensaje.innerHTML = `
-        <span class="text-dark"></span>
+        <div class="d-flex">
+            <div class="toast-body">
+                ${mensaje}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
     `;
-    ElementoMensaje.querySelector('span').innerText = mensaje;
+    
     document.body.appendChild(ElementoMensaje);
     
-    setTimeout(function() {
+    // Initialize the Bootstrap toast functionality
+    var toast = new bootstrap.Toast(ElementoMensaje);
+    toast.show();
+
+    // Automatically remove the element after it is hidden
+    ElementoMensaje.addEventListener('hidden.bs.toast', function () {
         document.body.removeChild(ElementoMensaje);
-    }, 4000);
+    });
 }
 
 window.onload = function() {

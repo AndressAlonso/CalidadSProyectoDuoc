@@ -23,6 +23,12 @@
     var allInputs = document.querySelectorAll("input");
     var selects = document.querySelectorAll("select");
     var idtipo = document.getElementById("id_tipo_usuario")
+    var password1 = document.querySelector(`label[for="id_password1"]`)
+    var password2 = document.querySelector(`label[for="id_password2"]`)
+    var username = document.querySelector(`label[for="id_username"]`)
+    username.innerHTML = "Nombre de Usuario"
+    password1.innerHTML = "Contraseña"
+    password2.innerHTML = "Confirmar Contraseña"
     selects.forEach(function (ss) {
       ss.classList.add('form-select');
     });
