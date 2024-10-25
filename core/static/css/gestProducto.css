@@ -1,24 +1,4 @@
-@media (min-width: 425px) {
-    #card {
-        flex-grow: 1;
-    }
-    #añadirProductos{
-        flex-wrap: nowrap !important;
-    }
-}
 
-select{
-    width: 50vh !important;
-}
-
-#filtro label {
-    width: 25vh;
-    text-align: start;
-    font-weight: normal;
-    margin: 0px;
-    border-radius: .2rem;
-    padding: .2rem;
-}
 
 #right div{
     width: 100%;    

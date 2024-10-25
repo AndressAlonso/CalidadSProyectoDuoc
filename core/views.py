@@ -32,6 +32,7 @@ def register(request):
         if form.is_valid():
             user = form.save()  
             login(request, user)
+            messages.success(request, 'Bienvenido!')
             return redirect('home')
     else:
         form = SignUpForm()
@@ -46,9 +47,10 @@ def custom_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success('Bienvenido ' + username + '!.')
             return redirect('home')
         else:
-            messages.error(request, 'Invalid username or password.')
+            messages.success(request, 'Contraseña o usuario Invalidos!.')
     return render(request, 'login.html')
 
 
@@ -113,6 +115,7 @@ def GestProducto(request):
         tipoinsumo_id = request.POST.get('tipoInsumo')
         origen_id = request.POST.get('origen')
         descripcion = request.POST.get('descripcion')
+        PAGINA = request.POST.get('paginaData')
         imagen = request.FILES.get('imagen')
         imagenUrl = ''
 
@@ -147,8 +150,7 @@ def GestProducto(request):
                 producto.imagenUrl = imagenUrl
             producto.save()
             messages.success(request, "Producto actualizado exitosamente.")
-        else:  # Create new product
-            # Create and save the product
+        else:  
             producto = Producto(
                 nombre=nombre,
                 stock=stock,
@@ -164,7 +166,6 @@ def GestProducto(request):
             )
             producto.save()
             messages.success(request, "Producto agregado exitosamente.")
-
         return redirect('GestProducto')
     fecha_subida = request.GET.get('fecha_subida', '-')
     tipo_producto = request.GET.get('tipo', '-')
@@ -223,10 +224,9 @@ def adminConfig(request):
     vendidos = Venta.objects.all()
     cantidadVentas = ventasPagina.count()
    
-    if filtro == 'inventario':
-        productos = productos.filter(inventario=True) 
-    elif filtro == 'ventas':
-        productos = productos.filter(cantidadVentas__gt=1) 
+
+    if filtro == 'ventas':
+        productos = DetalleVenta.objects.all() 
     elif filtro == 'todos':
         productos = productos 
     
@@ -274,9 +274,9 @@ def adminConfig(request):
             if imagenUrl:
                 producto.imagenUrl = imagenUrl
             producto.save()
-            messages.success(request, "Producto actualizado exitosamente.")
-        else:  # Create new product
-            # Create and save the product
+            return redirect('adminConfig')
+        else:  
+            
             producto = Producto(
                 nombre=nombre,
                 stock=stock,
@@ -444,12 +444,17 @@ def delToCar(request, id):
     else:
         carrito.remove(item)
     request.session["carrito"] = carrito
+    messages.success(request, 'Producto Eliminado del Carrito')
     return render(request, "carro.html")
 
 def eliminarProducto(request, id):
     producto = get_object_or_404(Producto, id=id)
     producto.delete()
-    return redirect('GestProducto') 
+    if (request.path == 'gestion/producto'):
+        path = 'GestProducto'
+    else:
+        path = 'adminConfig'
+    return redirect(path) 
 
 
 def crearProducto(request):

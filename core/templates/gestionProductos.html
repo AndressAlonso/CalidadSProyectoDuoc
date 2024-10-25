@@ -116,6 +116,7 @@
         <form id="añadirProductos" action="{% url 'GestProducto' %}" enctype="multipart/form-data" method="POST"
           class="d-flex justify-content-between flex-wrap w-100 flex-column align-items-center gap-2">
           {% csrf_token %}
+          <input type="hidden" name="paginaData" id="paginaData" />
           <input type="hidden" name="producto_id" id="producto_id" />
           <div id="formProductoL"
             class="flex-fill d-flex flex-column justify-content-center align-items-center gap-3 flex-sm-row w-100">
@@ -275,10 +276,10 @@
           <button type="submit" class="btn btn-success my-2 ms-auto w-md-25 w-100">Aplicar</button>
         </div>
       </form>
-      <div class="d-flex flex-row w-100 justify-content-between align-items-center">
+      <div class="d-flex flex-column flex-md-row gap-3 gap-md-0 w-100 justify-content-between align-items-center">
         <div>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#AgregarProducto">+</button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal"
+            data-bs-target="#AgregarProducto">Sube tu Producto + </button>
         </div>
         <div>
           <div class="d-flex gap-1">
@@ -317,7 +318,7 @@
       </div>
     </div>
   </div>
-  <div id="cards" class="d-flex justify-content-md-center justify-items-center flex-wrap gap-1 w-100">
+  <div id="cards" class="d-flex justify-content-center gap-3 gap-md-2 justify-items-center flex-wrap w-100">
     {% for p in productos %}
     <div id="title_card1" class="card rounded-1 border-0 shadow">
       <div class="card-body border-black py-2 w-100 border-bottom-0">
@@ -372,7 +373,12 @@
           class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro"
           data-id="{{ p.id }}" data-nombre="{{ p.nombre }}" data-tipo="{{ p.tipo }}" data-stock="{{ p.stock }}"
           data-cantidad-ventas="{{ p.cantidadVentas }}" data-proveedor="{{ p.proveedor }}"
-          data-descripcion="{{ p.descripcion }}" data-precio="{{ p.precio }}">
+          data-descripcion="{{ p.descripcion }}" data-precio="{{ p.precio }}" 
+          {% if request.path == '/gestion/admin' %}
+              data-pagina="adminConfig"
+              {% else %}
+              data-pagina="GestProducto"
+              {% endif %}>
           <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882"
             style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">

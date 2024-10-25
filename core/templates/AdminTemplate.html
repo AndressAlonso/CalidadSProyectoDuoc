@@ -113,9 +113,11 @@
             <div class="modal-body">
                 <form id="añadirProductos" action="{% url 'GestProducto' %}" enctype="multipart/form-data" method="POST" class="d-flex justify-content-between flex-wrap w-100 flex-column align-items-center gap-2">
                     {% csrf_token %}
-                    <input type="hidden" name="producto_id" id="producto_id" />
+                    <input type="text" name="paginaData" id="paginaData" />
                     <div id="formProductoL" class="flex-fill d-flex flex-column justify-content-center align-items-center gap-3 flex-sm-row w-100">
                         <div id="left" class="d-flex justify-content-center align-items-start flex-fill flex-column gap-3">
+                          <input type="hidden" id="producto_id" name="producto_id" class="form-control" />
+
                             <div>
                                 <label for="tipoProducto" class="form-label">Tipo</label>
                                 <select class="form-select w-100" name="tipoProducto" id="tipoProducto">
@@ -266,19 +268,25 @@
             </div>
           </div>
           <div class="w-100 d-flex justify-content-center align-items-center">
-            <button type="submit" class="btn btn-success my-2 w-25">Aplicar</button>
+            <button type="submit" class="btn btn-success my-2 w-100">Aplicar</button>
           </div>
         </form>
-        <div class="d-flex flex-row w-100 justify-content-between align-items-center">
+        <div class="d-flex flex-column flex-md-row w-100 justify-content-between align-items-center">
           <div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AgregarProducto">+</button>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarProducto">Crear y Sube un Producto +</button>
           </div>
          <div>
           <div>
             <form method="GET" action="{% url 'adminConfig' %}">
               <select class="form-select" name="filtro" id="productos-inventario">
+                {% if request.GET.filtro == 'ventas' %}
+                ->Todos los productos
+                {% elif request.GET.filtro == 'ventas' %}
+                ->Ventas
+                {% else %}
                 <option value="">->¿Qué quieres Ver?</option>
-                <option value="inventario">Inventario</option>
+                {% endif %}
+                <option value="">->¿Qué quieres Ver?</option>
                 <option value="ventas">Ventas</option>
                 <option value="todos">Todos los productos</option>
               </select>
@@ -295,8 +303,85 @@
          </div>
         </div>
       </div>
-      <div id="cards" class="d-flex justify-content-md-center justify-items-center flex-wrap gap-1 w-100">
+      <div id="cards" class="d-flex justify-content- gap-3 my-3 container align-items-center flex-wrap gap-1 w-100">
+        {% if request.GET.filtro == 'ventas' %}
         {% for p in productos %}
+          <div id="title_card1" class="card rounded-1 border-0 shadow">
+            <div class="card-body border-black py-2 w-100 border-bottom-0">
+              <div class="d-flex justify-content-between flex-column w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>{{p.producto.nombre}}</span>
+                  <a href="{% url 'detalle' p.id %}" class="w-25" id="imgProducto">
+                    <img src="{% static 'imgs/' %}{{ p.producto.imagenUrl }}" alt="" />
+                  </a>
+                </div>
+                <div>
+                  <div class="text-black fw-light" id="idCard">
+                    <div>
+                      ID: <span class="fw-bolder">{{p.producto.id}}</span>
+                    </div>
+                    <div class="text-capitalize">
+                      Tipo.: <span class="fw-bolder">{{p.producto.tipo}}</span>
+                    </div>
+                    <div>
+                      Stock..: <span class="fw-bolder">{{p.producto.stock}}</span>
+                    </div>
+                    <div>
+                      Unid. Vendidas..: <span class="fw-bolder">{{p.producto.cantidadVentas}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer px-0 border-top-0 bg-body w-100">
+              <div class="d-flex w-100 justify-content-between px-3">
+                <div class="text-black fw-semibold" id="cardMarca">Prov.:{{p.producto.proveedor}}</div>
+              </div>
+              <div class="px-3 w-100" id="cardDesc">{{p.producto.descripcion}}</div>
+              <div class="d-flex px-3 w-100 justify-content-start align-items-start flex-column">
+                <span class="text-black fs-6 fw-semibold">${{p.producto.precio|intcomma}}</span>
+              </div>
+            </div>
+            <div id="carritobtn2" class="d-flex justify-content-center align-items-center w-100">
+              <a href="{% url 'eliminarProducto' p.producto.id %}" class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" id="AddToCarro">
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.333 348.334" style="enable-background:new 0 0 348.333 348.334;" xml:space="preserve">
+                  <g>
+                    <path d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85 c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563 c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85 l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554 L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"></path>
+                  </g>
+                </svg>
+              </a>
+              <a type="button" 
+              data-bs-toggle="modal" 
+              data-bs-target="#modificarProducto" 
+              class="rounded-bottom-1 flex-fill text-decoration-none bg-body text-body text-center py-2" 
+              id="AddToCarro" 
+              data-id="{{ p.producto.id }}"
+              data-nombre="{{ p.producto.nombre }}"
+              data-tipo="{{ p.producto.tipo }}"
+              data-stock="{{ p.producto.stock }}"
+              data-cantidad-ventas="{{ p.producto.cantidadVentas }}"
+              data-proveedor="{{ p.producto.proveedor }}"
+              data-descripcion="{{ p.producto.descripcion }}"
+              data-precio="{{ p.producto.precio }}"
+              {% if request.path == '/gestion/admin' %}
+              data-pagina="adminConfig"
+              {% else %}
+              data-pagina="GestProducto"
+              {% endif %}>
+                <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
+                  <g>
+                    <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
+                    <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path>
+                  </g>
+                </svg>
+              </a>
+            </div>
+          </div>
+          {%empty%}
+          <span>Producto No Encontrado O No existe!</span>
+        {% endfor %}
+        {% else %}
+          {% for p in productos %}
           <div id="title_card1" class="card rounded-1 border-0 shadow">
             <div class="card-body border-black py-2 w-100 border-bottom-0">
               <div class="d-flex justify-content-between flex-column w-100">
@@ -353,7 +438,12 @@
               data-cantidad-ventas="{{ p.cantidadVentas }}"
               data-proveedor="{{ p.proveedor }}"
               data-descripcion="{{ p.descripcion }}"
-              data-precio="{{ p.precio }}">
+              data-precio="{{ p.precio }}"
+              {% if request.path == '/gestion/admin' %}
+              data-pagina="adminConfig"
+              {% else %}
+              data-pagina="GestProducto"
+              {% endif %}>
                 <svg width="20" height="20" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 348.882 348.882" style="enable-background:new 0 0 348.882 348.882;" xml:space="preserve">
                   <g>
                     <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path>
@@ -363,8 +453,11 @@
               </a>
             </div>
           </div>
-     
+          {%empty%}
+          <span>Producto No Encontrado O No existe!</span>
         {% endfor %}
+        {% endif %}
+      
         
       </div>
     </div>

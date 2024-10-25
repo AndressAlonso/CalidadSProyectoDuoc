@@ -27,16 +27,22 @@ main{
     min-height:250px;
 }
 
-
-
-
 #card:hover #imgProducto {
     transform: scale(1.1);
-    /* Increase size by 10% */
     transition: transform 0.3s ease;
-    /* Smooth transition */
 }
 
+.bg-success{
+    background-color: #006414 !important;
+}
+
+.btn-success{
+    background-color: #006414 !important;
+}
+
+.btn-outline-success{
+    background-color: #006414 !important;
+}
 
 #imgProducto img {
     border-radius: 50%;
@@ -46,16 +52,10 @@ main{
     mix-blend-mode: multiply;
 }
 
-.card #title_card1{
+#title_card1 {
     max-width: 483.42px;
     min-width: 254.543px;
-    flex-grow: 1;
-}
-
-.card {
-    max-width: 483.42px;
-    min-width: 254.543px;
-    min-height: 65vh;
+    min-height: 10vh !important;
     min-width: 50vh;
     display: flex;
     justify-content: center;
@@ -75,11 +75,35 @@ main{
 
 }
 
-
 #cardDesc {
     font-size: small;
     text-wrap: balance;
     height: 78px;
     overflow-y: scroll;
+}
+
+@media (min-width: 400px) {
+    #card {
+        flex-grow: 1;
+    }
+    #añadirProductos{
+        flex-wrap: nowrap !important;
+    }
+    #filtro select{
+        width: 50vh !important;
+    }
+}
+
+#filtro select{
+    width: 25vh !important;
+}
+
+#filtro label {
+    width: 100%;
+    text-align: center;
+    font-weight: normal;
+    margin: 0px;
+    border-radius: .2rem;
+    padding: .2rem;
 }
 
